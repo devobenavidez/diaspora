@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Diaspora.Domain\Diaspora.Domain.csproj" />
+    <ProjectReference Include="..\Diaspora.Infrastructure\Diaspora.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstractions\" />
+    <Folder Include="Behaviors\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Users\Commands\CreateUser\" />
+    <Folder Include="Users\DTOs\" />
+    <Folder Include="Users\Queries\GetUserById\" />
+  </ItemGroup>
+
+</Project>
