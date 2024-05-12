@@ -28,4 +28,4 @@ cd diaspora
 ```
 
 ##Contacto
-Para preguntas o comentarios, por favor contacta a [tu correo electrónico].
+Para preguntas o comentarios, por favor contacta a obenavidez@gmai.com
