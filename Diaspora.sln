@@ -19,6 +19,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{C1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{1B721061-79BF-48A3-8EE9-AAA71CF72D9F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3BAB923C-746F-45D8-A6A5-095FE5B6BEFA}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diaspora.Test", "Diaspora.Test\Diaspora.Test.csproj", "{83F96CFE-D519-47AA-A5CE-34553CB40EA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +49,10 @@ Global
 		{ACED093A-5FB4-4A0A-A8CC-ECF9FA7CF141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACED093A-5FB4-4A0A-A8CC-ECF9FA7CF141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACED093A-5FB4-4A0A-A8CC-ECF9FA7CF141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83F96CFE-D519-47AA-A5CE-34553CB40EA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83F96CFE-D519-47AA-A5CE-34553CB40EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83F96CFE-D519-47AA-A5CE-34553CB40EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83F96CFE-D519-47AA-A5CE-34553CB40EA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +64,7 @@ Global
 		{5D368C07-7E6E-47BA-AA34-7B6473C95EE9} = {CE789D3E-80A2-4A14-B38C-FDB7A38D417C}
 		{C14C60C5-9EC1-43AD-BACE-A18284B09D0B} = {CE789D3E-80A2-4A14-B38C-FDB7A38D417C}
 		{1B721061-79BF-48A3-8EE9-AAA71CF72D9F} = {CE789D3E-80A2-4A14-B38C-FDB7A38D417C}
+		{83F96CFE-D519-47AA-A5CE-34553CB40EA2} = {1B721061-79BF-48A3-8EE9-AAA71CF72D9F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD747CA9-65F1-4B23-9F25-AB805A893C96}
