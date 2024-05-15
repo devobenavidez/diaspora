@@ -3,7 +3,7 @@
 
 # Ejecutar linting
 echo "Running lint checks..."
-dotnet format --check
+dotnet format --verify-no-changes
 if [ $? -ne 0 ]; then
   echo "Linting failed. Commit aborted."
   exit 1
