@@ -3,7 +3,7 @@ REM Detener el commit si hay fallas
 
 REM Ejecutar linting
 echo Running lint checks...
-dotnet format --check
+dotnet format --verify-no-changes
 if %ERRORLEVEL% neq 0 (
   echo Linting failed. Commit aborted.
   exit /b 1
