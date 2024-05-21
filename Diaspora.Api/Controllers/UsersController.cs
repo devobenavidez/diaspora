@@ -16,8 +16,8 @@ namespace Diaspora.Api.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            string NuevoUsuario = "Usuario4";
-            string NewUsuario = "Usuario5"; 
+            string nuevoUsuario = "Usuario4";
+            string NewUsuario = "Usuario6"; 
             return Users;
         }
     }
