@@ -1,3 +1,5 @@
+root = true
+
 # Reglas de nomenclatura para variables locales y parámetros de método en C#
 [*.{cs}]
 # Camel case para variables locales
@@ -8,7 +10,7 @@ dotnet_naming_rule.local_variables_should_be_camel_case.style    = camel_case_st
 # Camel case para parámetros de método
 dotnet_naming_rule.method_parameters_should_be_camel_case.severity = error
 dotnet_naming_rule.method_parameters_should_be_camel_case.symbols  = method_parameters
-dotnet_naming_rule.method_parameters_should_be_cambel_case.style   = camel_case_style
+dotnet_naming_rule.method_parameters_should_be_camel_case.style    = camel_case_style
 
 # Definición de símbolos
 dotnet_naming_symbols.local_variables.applicable_kinds           = local
@@ -21,3 +23,12 @@ dotnet_naming_symbols.method_parameters.required_modifiers          = none
 
 # Definición de estilos
 dotnet_naming_style.camel_case_style.capitalization = camel_case
+
+# Reglas adicionales basadas en las advertencias vistas
+dotnet_diagnostic.SA1633.severity = warning  # Archivo de encabezado faltante
+dotnet_diagnostic.SA1600.severity = warning  # Elementos deben estar documentados
+dotnet_diagnostic.SA1508.severity = warning  # Llave de cierre no debe estar precedida por una línea en blanco
+dotnet_diagnostic.SA1505.severity = warning  # Llave de apertura no debe estar seguida por una línea en blanco
+dotnet_diagnostic.SA1413.severity = warning  # Usar coma al final en inicializadores de múltiples líneas
+dotnet_diagnostic.SA1200.severity = warning  # La directiva using debe aparecer dentro de una declaración de espacio de nombres
+dotnet_diagnostic.SA1101.severity = warning  # Prefijar llamadas locales con this

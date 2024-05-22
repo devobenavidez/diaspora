@@ -1,3 +1,7 @@
+// <copyright file="UnitTest1.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace Diaspora.Test
 {
     public class UnitTest1
@@ -5,7 +9,6 @@ namespace Diaspora.Test
         [Fact]
         public void Test1()
         {
-
         }
     }
 }
