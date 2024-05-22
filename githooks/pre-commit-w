@@ -1,3 +1,4 @@
+#!/bin/sh
 @echo off
 REM Detener el commit si hay fallas
 

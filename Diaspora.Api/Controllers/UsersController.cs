@@ -17,7 +17,7 @@ namespace Diaspora.Api.Controllers
         public IEnumerable<string> Get()
         {
             string nuevoUsuario = "Usuario4";
-            string NewUsuario = "Usuario6"; 
+            string newUsuario = "Usuario6"; 
             return Users;
         }
     }
