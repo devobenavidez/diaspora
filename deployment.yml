@@ -17,6 +17,8 @@ spec:
           image: ombenavidez/tfm:${IMAGE_TAG}
           ports:
             - containerPort: 8080
+      imagePullSecrets:
+        - name: dockerhub-credentials
 
 ---
 apiVersion: v1
