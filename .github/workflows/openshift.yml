@@ -49,7 +49,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile
+          file: Diaspora.Api/Dockerfile  # Ajusta la ruta al Dockerfile correcto
           push: true
           tags: ombenavidez/tfm:${{ steps.bump_version.outputs.new_tag }}
 
