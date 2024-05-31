@@ -2,8 +2,7 @@ name: Database Management Workflow
 
 on:
   push:
-    branches:
-      - QA
+    branches: [ "QA" ]
 
 jobs:
   manage-database:
