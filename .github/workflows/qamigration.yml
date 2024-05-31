@@ -23,16 +23,16 @@ jobs:
       run: echo "ASPNETCORE_ENVIRONMENT=Development" >> $GITHUB_ENV
 
     - name: Run EF Core Scaffold
-      run: dotnet ef dbcontext scaffold "${{ secrets.DATABASE_DEV_CONNECTION_STRING }}" Pomelo.EntityFrameworkCore.MySql -o Models --context-dir Data -c DBContext --force
+      run: dotnet ef dbcontext scaffold "${{ secrets.DATABASE_DEV_CONNECTION_STRING }}" Pomelo.EntityFrameworkCore.MySql -o Models --context-dir Data -c DBContext --force --project ./Diaspora.Infrastructure/Diaspora.Infrastructure.csproj --startup-project ./Diaspora.Api/Diaspora.Api.csproj
       working-directory: ./Diaspora.Infrastructure
 
     - name: Generate Migration
-      run: dotnet ef migrations add $(uuidgen) --project Diaspora.Infrastructure --output-dir Migrations
+      run: dotnet ef migrations add $(uuidgen) --project ./Diaspora.Infrastructure/Diaspora.Infrastructure.csproj --startup-project ./Diaspora.Api/Diaspora.Api.csproj --output-dir Migrations
       working-directory: ./
 
     - name: Set QA Environment
       run: echo "ASPNETCORE_ENVIRONMENT=Qa" >> $GITHUB_ENV
 
     - name: Update Database
-      run: dotnet ef database update --project Diaspora.Infrastructure
+      run: dotnet ef database update --project ./Diaspora.Infrastructure/Diaspora.Infrastructure.csproj --startup-project ./Diaspora.Api/Diaspora.Api.csproj
       working-directory: ./
