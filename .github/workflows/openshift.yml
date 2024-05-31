@@ -1,13 +1,77 @@
-name: Main Branch Workflow
+name: .NET CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+  issues: write
 
 jobs:
-  print_message:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Hello from Main
-        run: echo "Hello from the Main branch!"
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '8.0'
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+  create-and-publish-container:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.bump_version.outputs.new_tag }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Bump version and push tag
+        id: bump_version
+        uses: mathieudutour/github-tag-action@v5.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: main
+          default_bump: patch
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Diaspora.Api/Dockerfile  # Ajusta la ruta al Dockerfile correcto
+          push: true
+          tags: ombenavidez/tfm:${{ steps.bump_version.outputs.new_tag }}
+
+  deploy-shift:
+    needs: create-and-publish-container
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set IMAGE_TAG environment variable
+        run: echo "IMAGE_TAG=${{ needs.create-and-publish-container.outputs.new_version }}" >> $GITHUB_ENV
+      - name: Print IMAGE_TAG
+        run: echo "Using IMAGE TAG ${{ env.IMAGE_TAG }}"
+      - name: Update deployment configuration
+        env:
+          IMAGE_TAG: ${{ needs.create-and-publish-container.outputs.new_version }}
+        run: |
+          sed -i "s|ombenavidez/tfm:.*|ombenavidez/tfm:${IMAGE_TAG}|" deployment.yml
+          cat deployment.yml
+      - name: Deploy to OpenShift
+        run: |
+          oc login --token=${{ secrets.OPENSHIFT_TOKEN }} --server=${{ secrets.OPENSHIFT_SERVER }}
+          oc project obenavidez-dev
+          oc apply -f ./deployment.yml
+          oc get route
