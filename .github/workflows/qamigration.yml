@@ -23,7 +23,7 @@ jobs:
       run: echo "ASPNETCORE_ENVIRONMENT=Development" >> $GITHUB_ENV
 
     - name: Run EF Core Scaffold
-      run: dotnet ef dbcontext scaffold "${{ secrets.DATABASE_DEV_CONNECTION_STRING }}" Pomelo.EntityFrameworkCore.MySql -o Models --context-dir Data -c DBContext
+      run: dotnet ef dbcontext scaffold "${{ secrets.DATABASE_DEV_CONNECTION_STRING }}" Pomelo.EntityFrameworkCore.MySql -o Models --context-dir Data -c DBContext --force
       working-directory: ./Diaspora.Infrastructure
 
     - name: Generate Migration
