@@ -1,13 +1,38 @@
-name: QA Branch Workflow
+name: Database Management Workflow
 
 on:
   push:
-    branches:
-      - QA
+    branches: [ "QA" ]
 
 jobs:
-  print_message:
+  manage-database:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Hello from QA
-        run: echo "Hello from the QA branch!"
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0'
+
+    - name: Install Entity Framework Core CLI
+      run: dotnet tool install --global dotnet-ef
+
+    - name: Set Development Environment
+      run: echo "ASPNETCORE_ENVIRONMENT=Development" >> $GITHUB_ENV
+
+    - name: Run EF Core Scaffold
+      run: dotnet ef dbcontext scaffold "${{ secrets.DATABASE_DEV_CONNECTION_STRING }}" Pomelo.EntityFrameworkCore.MySql -o Models --context-dir Data -c DBContext
+      working-directory: ./Diaspora.Infrastructure
+
+    - name: Generate Migration
+      run: dotnet ef migrations add $(uuidgen) --project Diaspora.Infrastructure --output-dir Migrations
+      working-directory: ./
+
+    - name: Set QA Environment
+      run: echo "ASPNETCORE_ENVIRONMENT=Qa" >> $GITHUB_ENV
+
+    - name: Update Database
+      run: dotnet ef database update --project Diaspora.Infrastructure
+      working-directory: ./
