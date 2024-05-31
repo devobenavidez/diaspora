@@ -4,12 +4,22 @@
 
 namespace Diaspora.Api.Controllers
 {
+    using Diaspora.Application.Users.DTOs;
+    using Diaspora.Application.Users.Queries.GetUsersList;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public UsersController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         // Suponiendo que tienes una lista estática de usuarios como ejemplo
         private static readonly List<string> Users = new List<string>
         {
@@ -18,11 +28,9 @@ namespace Diaspora.Api.Controllers
 
         // Método GET
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<List<UserDto>> Get()
         {
-            string nuevoUsuario = "Usuario4";
-            string newUsuario = "Usuario6";
-            return Users;
+            return await _mediator.Send(new GetUsersListCommand());
         }
     }
 }
