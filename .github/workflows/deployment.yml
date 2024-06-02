@@ -74,6 +74,8 @@ jobs:
           slot-name: 'production'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_DEV }}
           images: 'ombenavidez/tfm:${{ env.IMAGE_TAG }}'
+        env:
+          ASPNETCORE_ENVIRONMENT: 'Development'
 
   deploy-qa:
     needs: create-and-publish-container
@@ -93,6 +95,8 @@ jobs:
           slot-name: 'production'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_QA }}
           images: 'ombenavidez/tfm:${{ env.IMAGE_TAG }}'
+        env:
+          ASPNETCORE_ENVIRONMENT: 'Qa'
 
   deploy-prod:
     needs: create-and-publish-container
@@ -112,3 +116,5 @@ jobs:
           slot-name: 'production'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_PROD }}
           images: 'ombenavidez/tfm:${{ env.IMAGE_TAG }}'
+        env:
+          ASPNETCORE_ENVIRONMENT: 'Production'

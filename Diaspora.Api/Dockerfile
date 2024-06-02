@@ -3,6 +3,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
 
+# Set environment variable for ASP.NET Core
+ENV ASPNETCORE_ENVIRONMENT=Production
+
 # SDK image for building the code
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
