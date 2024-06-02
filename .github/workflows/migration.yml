@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - QA
+      - DEV
 
 jobs:
   deploy:
@@ -32,8 +33,12 @@ jobs:
             echo "Branch is QA"
             echo "DB_NAME=${{ secrets.DB_NAME_QA }}" >> $GITHUB_ENV
             echo "DB_NAME set to: ${{ secrets.DB_NAME_QA }}"
+          elif [[ "${GITHUB_REF}" == "refs/heads/DEV" ]]; then
+            echo "Branch is DEV"
+            echo "DB_NAME=${{ secrets.DB_NAME_DEV }}" >> $GITHUB_ENV
+            echo "DB_NAME set to: ${{ secrets.DB_NAME_DEV }}"
           else
-            echo "Branch is not main or QA"
+            echo "Branch is not main, QA, or DEV"
           fi
 
       - name: Check migration status
@@ -74,8 +79,8 @@ jobs:
           git add migration_status.txt
           git commit -m "Reset migration status to NOT_PENDING"
           git push origin main
-        env:
-          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
+          git push origin HEAD:refs/heads/QA
+          git push origin HEAD:refs/heads/DEV
 
       - name: Deploy application (if applicable)
         if: env.MIGRATIONS_PENDING == 'false'
