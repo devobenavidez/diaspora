@@ -21,7 +21,7 @@ echo "Usuario: $DB_USER"
 echo "Base de Datos: $DB_NAME"
 
 # Directorio de migraciones
-MIGRATIONS_DIR="./migrations"
+MIGRATIONS_DIR="./Migrations"
 echo "Directorio de migraciones: $MIGRATIONS_DIR"
 
 # Función para comprobar si una migración ya ha sido aplicada
