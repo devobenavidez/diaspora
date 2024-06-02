@@ -26,6 +26,7 @@ jobs:
       run: dotnet ef dbcontext scaffold "${{ secrets.DATABASE_DEV_CONNECTION_STRING }}" Pomelo.EntityFrameworkCore.MySql -o Models --context-dir Data -c DBContext --force --project Diaspora.Infrastructure.csproj --startup-project ../Diaspora.Api/Diaspora.Api.csproj
       working-directory: ./Diaspora.Infrastructure
 
+
     - name: Generate Migration
       run: dotnet ef migrations add $(uuidgen) --project ./Diaspora.Infrastructure/Diaspora.Infrastructure.csproj --startup-project ./Diaspora.Api/Diaspora.Api.csproj --output-dir Migrations
       working-directory: ./
