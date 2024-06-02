@@ -1,0 +1,118 @@
+name: Database Deployment Flow
+
+on:
+  push:
+    branches:
+      - main
+      - QA
+      - DEV
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACTIONS_PAT }}
+
+      - name: Set up MySQL
+        run: sudo apt-get install mysql-client
+
+      - name: Determine environment
+        id: set-env-vars
+        run: |
+          echo "GITHUB_REF is: ${GITHUB_REF}"
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            echo "Branch is main"
+            echo "DB_NAME=${{ secrets.DB_NAME_PROD }}" >> $GITHUB_ENV
+            echo "DB_NAME set to: ${{ secrets.DB_NAME_PROD }}"
+          elif [[ "${GITHUB_REF}" == "refs/heads/QA" ]]; then
+            echo "Branch is QA"
+            echo "DB_NAME=${{ secrets.DB_NAME_QA }}" >> $GITHUB_ENV
+            echo "DB_NAME set to: ${{ secrets.DB_NAME_QA }}"
+          elif [[ "${GITHUB_REF}" == "refs/heads/DEV" ]]; then
+            echo "Branch is DEV"
+            echo "DB_NAME=${{ secrets.DB_NAME_DEV }}" >> $GITHUB_ENV
+            echo "DB_NAME set to: ${{ secrets.DB_NAME_DEV }}"
+          else
+            echo "Branch is not main, QA, or DEV"
+          fi
+
+      - name: Check migration status
+        id: check-migration-status
+        run: |
+          if grep -q "PENDING" migration_status.txt; then
+            echo "Migrations are pending"
+            echo "MIGRATIONS_PENDING=true" >> $GITHUB_ENV
+          else
+            echo "No migrations are pending"
+            echo "MIGRATIONS_PENDING=false" >> $GITHUB_ENV
+          fi
+
+      - name: Print environment variables for debugging
+        run: |
+          echo "DB_NAME: $DB_NAME"
+          echo "MIGRATIONS_PENDING: $MIGRATIONS_PENDING"
+
+      - name: Run migrations
+        if: env.MIGRATIONS_PENDING == 'true'
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ env.DB_NAME }}
+        run: |
+          echo "Running migrations..."
+          chmod +x migrations.sh
+          ./migrations.sh
+
+      - name: Stash changes before resetting migration status
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: git stash --include-untracked
+
+      - name: Reset migration status if on main
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: |
+          echo "Resetting migration status to NOT_PENDING"
+          echo "NOT_PENDING" > migration_status.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add migration_status.txt
+          git diff-index --quiet HEAD || git commit -m "Reset migration status to NOT_PENDING"
+          git push origin main
+
+      - name: Sync migration status to QA
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: |
+          git checkout QA
+          git pull origin QA
+          git checkout main -- migration_status.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add migration_status.txt
+          git diff-index --quiet HEAD || git commit -m "Sync migration status from main to QA"
+          git push origin QA
+
+      - name: Sync migration status to DEV
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: |
+          git checkout DEV
+          git pull origin DEV
+          git checkout main -- migration_status.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add migration_status.txt
+          git diff-index --quiet HEAD || git commit -m "Sync migration status from main to DEV"
+          git push origin DEV
+
+      - name: Apply stashed changes
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: git stash pop
+
+      - name: Deploy application (if applicable)
+        if: env.MIGRATIONS_PENDING == 'false'
+        run: |
+          echo "No migrations needed ..."

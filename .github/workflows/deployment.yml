@@ -1,0 +1,17 @@
+name: Application Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - qa
+
+jobs:
+  print-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Print branch name
+        run: |
+          echo "This commit was pushed to branch: ${{ github.ref }}"
