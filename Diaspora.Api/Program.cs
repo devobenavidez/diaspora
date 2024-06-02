@@ -42,7 +42,7 @@ builder.Services.AddScoped<IUser, UserRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline. 4
+// Configure the HTTP request pipeline. 5
 if (app.Environment.IsEnvironment("Local") || app.Environment.IsEnvironment("Qa") || app.Environment.IsDevelopment())
 {
     app.UseSwagger();
