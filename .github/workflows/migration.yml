@@ -27,8 +27,8 @@ jobs:
             echo "Branch is main"
             echo "DB_NAME=${{ secrets.DB_NAME_PROD }}" >> $GITHUB_ENV
             echo "DB_NAME set to: ${{ secrets.DB_NAME_PROD }}"
-          elif [[ "${GITHUB_REF}" == "refs/heads/qa" ]]; then
-            echo "Branch is qa"
+          elif [[ "${GITHUB_REF}" == "refs/heads/QA" ]]; then
+            echo "Branch is Qa"
             echo "DB_NAME=${{ secrets.DB_NAME_QA }}" >> $GITHUB_ENV
             echo "DB_NAME set to: ${{ secrets.DB_NAME_QA }}"
           else
