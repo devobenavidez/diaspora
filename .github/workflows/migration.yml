@@ -1,0 +1,51 @@
+name: Database Deployment Flow
+
+on:
+  push:
+    branches:
+      - main
+      - qa
+    tags:
+      - db-migration
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up MySQL
+        run: sudo apt-get install mysql-client
+
+      - name: Determine environment and set DB name
+        id: set-env-vars
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            echo "DB_NAME=${{ secrets.DB_NAME_PROD }}" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF}" == "refs/heads/qa" ]]; then
+            echo "DB_NAME=${{ secrets.DB_NAME_QA }}" >> $GITHUB_ENV
+          fi
+          if [[ "${GITHUB_REF}" == "refs/tags/db-migration" ]]; then
+            echo "MIGRATIONS_PENDING=true" >> $GITHUB_ENV
+          else
+            echo "MIGRATIONS_PENDING=false" >> $GITHUB_ENV
+          fi
+
+      - name: Run migrations
+        if: env.MIGRATIONS_PENDING == 'true'
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ env.DB_NAME }}
+        run: |
+          chmod +x migrations.sh
+          ./migrations.sh
+
+      - name: Deploy application (if applicable)
+        if: env.MIGRATIONS_PENDING == 'false'
+        run: |
+          echo "No migrations needed"
+
