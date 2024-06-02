@@ -47,5 +47,5 @@ jobs:
       - name: Deploy application (if applicable)
         if: env.MIGRATIONS_PENDING == 'false'
         run: |
-          echo "No migrations needed"
+          echo "No migrations needed ..."
 
