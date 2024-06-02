@@ -5,8 +5,6 @@ on:
     branches:
       - main
       - qa
-    tags:
-      - db-migration
 
 jobs:
   deploy:
@@ -16,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Necesario para obtener todas las etiquetas
+          fetch-depth: 0
 
       - name: Set up MySQL
         run: sudo apt-get install mysql-client
@@ -37,21 +35,15 @@ jobs:
             echo "Branch is not main or qa"
           fi
 
-      - name: Check for db-migration tag
-        id: check-tag
+      - name: Check migration status
+        id: check-migration-status
         run: |
-          LAST_COMMIT_HASH=$(git rev-parse HEAD)
-          echo "Last commit hash: $LAST_COMMIT_HASH"
-          TAGS=$(git tag --contains $LAST_COMMIT_HASH)
-          echo "Tags for the last commit: $TAGS"
-          if [[ "$TAGS" == *"db-migration"* ]]; then
-            echo "db-migration tag found"
+          if grep -q "PENDING" migration_status.txt; then
+            echo "Migrations are pending"
             echo "MIGRATIONS_PENDING=true" >> $GITHUB_ENV
-            echo "MIGRATIONS_PENDING set to true"
           else
-            echo "db-migration tag not found"
+            echo "No migrations are pending"
             echo "MIGRATIONS_PENDING=false" >> $GITHUB_ENV
-            echo "MIGRATIONS_PENDING set to false"
           fi
 
       - name: Print environment variables for debugging
@@ -70,6 +62,10 @@ jobs:
           echo "Running migrations..."
           chmod +x migrations.sh
           ./migrations.sh
+
+      - name: Reset migration status
+        if: env.MIGRATIONS_PENDING == 'true'
+        run: echo "NOT_PENDING" > migration_status.txt
 
       - name: Deploy application (if applicable)
         if: env.MIGRATIONS_PENDING == 'false'
