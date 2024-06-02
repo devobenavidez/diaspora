@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - Qa
+      - QA
 
 jobs:
   deploy:
