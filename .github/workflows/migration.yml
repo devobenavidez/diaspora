@@ -40,7 +40,11 @@ jobs:
       - name: Check for db-migration tag
         id: check-tag
         run: |
-          if git describe --tags --exact-match 2>/dev/null | grep -q "db-migration"; then
+          LAST_COMMIT_HASH=$(git rev-parse HEAD)
+          echo "Last commit hash: $LAST_COMMIT_HASH"
+          TAGS=$(git tag --contains $LAST_COMMIT_HASH)
+          echo "Tags for the last commit: $TAGS"
+          if [[ "$TAGS" == *"db-migration"* ]]; then
             echo "db-migration tag found"
             echo "MIGRATIONS_PENDING=true" >> $GITHUB_ENV
             echo "MIGRATIONS_PENDING set to true"
