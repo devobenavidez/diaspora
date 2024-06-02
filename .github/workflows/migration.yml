@@ -17,10 +17,38 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.ACTIONS_PAT }}
 
+      - name: Print migration status file for debugging
+        run: |
+          echo "Contents of migration_status.txt:"
+          cat migration_status.txt
+
+      - name: Check migration status
+        id: check-migration-status
+        run: |
+          if grep -q "^PENDING$" migration_status.txt; then
+            echo "Migrations are pending"
+            echo "MIGRATIONS_PENDING=true" >> $GITHUB_ENV
+          else
+            echo "No migrations are pending"
+            echo "MIGRATIONS_PENDING=false" >> $GITHUB_ENV
+          fi
+
+      - name: Print environment variables for debugging
+        run: |
+          echo "MIGRATIONS_PENDING: $MIGRATIONS_PENDING"
+
+      - name: Exit if no migrations are pending
+        if: env.MIGRATIONS_PENDING == 'false'
+        run: |
+          echo "No migrations needed. Exiting..."
+          exit 0
+
       - name: Set up MySQL
+        if: env.MIGRATIONS_PENDING == 'true'
         run: sudo apt-get install mysql-client
 
       - name: Determine environment
+        if: env.MIGRATIONS_PENDING == 'true'
         id: set-env-vars
         run: |
           echo "GITHUB_REF is: ${GITHUB_REF}"
@@ -36,24 +64,13 @@ jobs:
             echo "Branch is not main or QA"
           fi
 
-      - name: Check migration status
-        id: check-migration-status
-        run: |
-          if grep -q "PENDING" migration_status.txt; then
-            echo "Migrations are pending"
-            echo "MIGRATIONS_PENDING=true" >> $GITHUB_ENV
-          else
-            echo "No migrations are pending"
-            echo "MIGRATIONS_PENDING=false" >> $GITHUB_ENV
-          fi
-
-      - name: Print environment variables for debugging
+      - name: Print database configuration for debugging
+        if: env.MIGRATIONS_PENDING == 'true'
         run: |
           echo "DB_HOST: ${{ secrets.DB_HOST }}"
           echo "DB_USER: ${{ secrets.DB_USER }}"
           echo "DB_PASSWORD: ${{ secrets.DB_PASSWORD }}"
           echo "DB_NAME: $DB_NAME"
-          echo "MIGRATIONS_PENDING: $MIGRATIONS_PENDING"
 
       - name: Run migrations
         if: env.MIGRATIONS_PENDING == 'true'
