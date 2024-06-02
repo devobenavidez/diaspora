@@ -1,0 +1,39 @@
+[33m9fb541e[m[33m ([m[1;36mHEAD -> [m[1;32mTesting-Deployment[m[33m, [m[1;33mtag: db-migration[m[33m, [m[1;31morigin/Testing-Deployment[m[33m)[m Descripción del commit que incluye migraciones de base de datos
+[33m5a88db1[m Add migration
+[33m7b1037a[m Adding Migrations Script
+[33m081ba77[m[33m ([m[1;33mtag: v0.0.7[m[33m, [m[1;32mmain[m[33m)[m Update qamigration.yml
+[33meaf5ae7[m Update openshift.yml
+[33m8beaf52[m Rename qa-migration.yml to qamigration.yml
+[33m2fd1aa8[m Merge pull request #10 from devobenavidez/QA
+[33m819d530[m Update qa-migration.yml
+[33m182c024[m Update openshift.yml
+[33mf3d5f8b[m Update qa-migration.yml
+[33m8a157c8[m Merge pull request #9 from devobenavidez/DEV
+[33m04f82a8[m Merge pull request #8 from devobenavidez/Testing-Deployment
+[33m093ced9[m Set tests for azure database settings
+[33m8ebd751[m[33m ([m[1;33mtag: v0.0.6[m[33m)[m Create qa-migration.yml
+[33m57b062e[m[33m ([m[1;33mtag: v0.0.5[m[33m)[m Merge pull request #7 from devobenavidez/Testing-Deployment
+[33me3a92dd[m Testing 3
+[33mfe793fe[m[33m ([m[1;33mtag: v0.0.4[m[33m)[m Merge pull request #6 from devobenavidez/Testing-Deployment
+[33mfa9c739[m Testing 2
+[33m109609e[m[33m ([m[1;33mtag: v0.0.3[m[33m)[m Update openshift.yml
+[33ma3ba2c3[m[33m ([m[1;33mtag: v0.0.2[m[33m)[m Update openshift.yml
+[33m896e973[m[33m ([m[1;33mtag: v0.0.1[m[33m)[m Update openshift.yml
+[33m478a488[m Merge pull request #5 from devobenavidez/Testing-Deployment
+[33me8e2e17[m testing 1
+[33mc6f5276[m Create openshift.yml
+[33me944d7b[m Merge pull request #4 from devobenavidez/0001-Configuracion-del-Entorno-de-Linting
+[33m3058011[m[33m ([m[1;31morigin/0001-Configuracion-del-Entorno-de-Linting[m[33m)[m Commit para terminar de completar las tareas 1, 2 y 3
+[33m0408491[m Test commit 7
+[33m0ad91bb[m Test commit 6
+[33m2335e34[m Test commit 5
+[33mcd510bd[m Test commit 4
+[33m70367d1[m Test commit
+[33m004c4e2[m test linting 3
+[33m2d9d623[m test linting 2
+[33m25645d1[m test hook 1
+[33mfec341a[m 0001 - Configuración del Entorno de Linting
+[33m2ce5c10[m Update README.md
+[33ma631bc5[m Update README.md
+[33mf06a02e[m Create README.md
+[33m476974b[m Initial commit
