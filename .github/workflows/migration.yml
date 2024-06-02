@@ -36,10 +36,15 @@ jobs:
             echo "Branch is not main or QA"
           fi
 
+      - name: Print migration status file for debugging
+        run: |
+          echo "Contents of migration_status.txt:"
+          cat migration_status.txt
+
       - name: Check migration status
         id: check-migration-status
         run: |
-          if grep -q "PENDING" migration_status.txt; then
+          if grep -q "^PENDING$" migration_status.txt; then
             echo "Migrations are pending"
             echo "MIGRATIONS_PENDING=true" >> $GITHUB_ENV
           else
