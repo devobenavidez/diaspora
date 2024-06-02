@@ -63,9 +63,16 @@ jobs:
           chmod +x migrations.sh
           ./migrations.sh
 
-      - name: Reset migration status
-        if: env.MIGRATIONS_PENDING == 'true'
-        run: echo "NOT_PENDING" > migration_status.txt
+      - name: Reset migration status if on main
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: |
+          echo "Resetting migration status to NOT_PENDING"
+          echo "NOT_PENDING" > migration_status.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add migration_status.txt
+          git commit -m "Reset migration status to NOT_PENDING"
+          git push origin main
 
       - name: Deploy application (if applicable)
         if: env.MIGRATIONS_PENDING == 'false'
