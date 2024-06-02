@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - QA
+      - DEV
 
 jobs:
   deploy:
@@ -32,8 +33,12 @@ jobs:
             echo "Branch is QA"
             echo "DB_NAME=${{ secrets.DB_NAME_QA }}" >> $GITHUB_ENV
             echo "DB_NAME set to: ${{ secrets.DB_NAME_QA }}"
+          elif [[ "${GITHUB_REF}" == "refs/heads/DEV" ]]; then
+            echo "Branch is DEV"
+            echo "DB_NAME=${{ secrets.DB_NAME_DEV }}" >> $GITHUB_ENV
+            echo "DB_NAME set to: ${{ secrets.DB_NAME_DEV }}"
           else
-            echo "Branch is not main or QA"
+            echo "Branch is not main, QA, or DEV"
           fi
 
       - name: Check migration status
@@ -64,6 +69,10 @@ jobs:
           chmod +x migrations.sh
           ./migrations.sh
 
+      - name: Stash changes before resetting migration status
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: git stash --include-untracked
+
       - name: Reset migration status if on main
         if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
         run: |
@@ -72,10 +81,36 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add migration_status.txt
-          git commit -m "Reset migration status to NOT_PENDING"
+          git diff-index --quiet HEAD || git commit -m "Reset migration status to NOT_PENDING"
           git push origin main
-        env:
-          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
+
+      - name: Sync migration status to QA
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: |
+          git checkout QA
+          git pull origin QA
+          git checkout main -- migration_status.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add migration_status.txt
+          git diff-index --quiet HEAD || git commit -m "Sync migration status from main to QA"
+          git push origin QA
+
+      - name: Sync migration status to DEV
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: |
+          git checkout DEV
+          git pull origin DEV
+          git checkout main -- migration_status.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add migration_status.txt
+          git diff-index --quiet HEAD || git commit -m "Sync migration status from main to DEV"
+          git push origin DEV
+
+      - name: Apply stashed changes
+        if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
+        run: git stash pop
 
       - name: Deploy application (if applicable)
         if: env.MIGRATIONS_PENDING == 'false'
