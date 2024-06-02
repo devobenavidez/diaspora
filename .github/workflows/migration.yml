@@ -83,8 +83,16 @@ jobs:
           git add migration_status.txt
           git commit -m "Reset migration status to NOT_PENDING"
           git push origin main
-          git push origin HEAD:refs/heads/QA
-          git push origin HEAD:refs/heads/DEV
+          git checkout QA
+          git pull origin QA
+          git checkout main -- migration_status.txt
+          git commit -m "Sync migration status from main to QA"
+          git push origin QA
+          git checkout DEV
+          git pull origin DEV
+          git checkout main -- migration_status.txt
+          git commit -m "Sync migration status from main to DEV"
+          git push origin DEV
 
       - name: Apply stashed changes
         if: env.MIGRATIONS_PENDING == 'true' && github.ref == 'refs/heads/main'
