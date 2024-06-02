@@ -42,8 +42,8 @@ builder.Services.AddScoped<IUser, UserRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsEnvironment("Local") || app.Environment.IsDevelopment())
+
+if (app.Environment.IsEnvironment("Local") || app.Environment.IsEnvironment("Qa") || app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
