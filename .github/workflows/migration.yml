@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - QA
-      - DEV
 
 jobs:
   deploy:
@@ -33,12 +32,8 @@ jobs:
             echo "Branch is QA"
             echo "DB_NAME=${{ secrets.DB_NAME_QA }}" >> $GITHUB_ENV
             echo "DB_NAME set to: ${{ secrets.DB_NAME_QA }}"
-          elif [[ "${GITHUB_REF}" == "refs/heads/DEV" ]]; then
-            echo "Branch is DEV"
-            echo "DB_NAME=${{ secrets.DB_NAME_DEV }}" >> $GITHUB_ENV
-            echo "DB_NAME set to: ${{ secrets.DB_NAME_DEV }}"
           else
-            echo "Branch is not main, QA, or DEV"
+            echo "Branch is not main or QA"
           fi
 
       - name: Check migration status
@@ -54,6 +49,9 @@ jobs:
 
       - name: Print environment variables for debugging
         run: |
+          echo "DB_HOST: ${{ secrets.DB_HOST }}"
+          echo "DB_USER: ${{ secrets.DB_USER }}"
+          echo "DB_PASSWORD: ${{ secrets.DB_PASSWORD }}"
           echo "DB_NAME: $DB_NAME"
           echo "MIGRATIONS_PENDING: $MIGRATIONS_PENDING"
 
