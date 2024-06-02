@@ -15,6 +15,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          token: ${{ secrets.ACTIONS_PAT }}
 
       - name: Set up MySQL
         run: sudo apt-get install mysql-client
@@ -28,11 +29,11 @@ jobs:
             echo "DB_NAME=${{ secrets.DB_NAME_PROD }}" >> $GITHUB_ENV
             echo "DB_NAME set to: ${{ secrets.DB_NAME_PROD }}"
           elif [[ "${GITHUB_REF}" == "refs/heads/QA" ]]; then
-            echo "Branch is Qa"
+            echo "Branch is QA"
             echo "DB_NAME=${{ secrets.DB_NAME_QA }}" >> $GITHUB_ENV
             echo "DB_NAME set to: ${{ secrets.DB_NAME_QA }}"
           else
-            echo "Branch is not main or qa"
+            echo "Branch is not main or QA"
           fi
 
       - name: Check migration status
@@ -73,6 +74,8 @@ jobs:
           git add migration_status.txt
           git commit -m "Reset migration status to NOT_PENDING"
           git push origin main
+        env:
+          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }}
 
       - name: Deploy application (if applicable)
         if: env.MIGRATIONS_PENDING == 'false'
