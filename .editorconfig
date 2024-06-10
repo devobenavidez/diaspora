@@ -1,18 +1,18 @@
 root = true
 
-# Reglas de nomenclatura para variables locales y par·metros de mÈtodo en C#
+# Reglas de nomenclatura para variables locales y par√°metros de m√©todo en C#
 [*.{cs}]
 # Camel case para variables locales
 dotnet_naming_rule.local_variables_should_be_camel_case.severity = error
 dotnet_naming_rule.local_variables_should_be_camel_case.symbols  = local_variables
 dotnet_naming_rule.local_variables_should_be_camel_case.style    = camel_case_style
 
-# Camel case para par·metros de mÈtodo
+# Camel case para par√°metros de m√©todo
 dotnet_naming_rule.method_parameters_should_be_camel_case.severity = error
 dotnet_naming_rule.method_parameters_should_be_camel_case.symbols  = method_parameters
 dotnet_naming_rule.method_parameters_should_be_camel_case.style    = camel_case_style
 
-# DefiniciÛn de sÌmbolos
+# Definici√≥n de s√≠mbolos
 dotnet_naming_symbols.local_variables.applicable_kinds           = local
 dotnet_naming_symbols.local_variables.applicable_accessibilities = *
 dotnet_naming_symbols.local_variables.required_modifiers          = none
@@ -21,14 +21,14 @@ dotnet_naming_symbols.method_parameters.applicable_kinds           = parameter
 dotnet_naming_symbols.method_parameters.applicable_accessibilities = *
 dotnet_naming_symbols.method_parameters.required_modifiers          = none
 
-# DefiniciÛn de estilos
+# Definici√≥n de estilos
 dotnet_naming_style.camel_case_style.capitalization = camel_case
 
 # Reglas adicionales basadas en las advertencias vistas
 dotnet_diagnostic.SA1633.severity = warning  # Archivo de encabezado faltante
 dotnet_diagnostic.SA1600.severity = warning  # Elementos deben estar documentados
-dotnet_diagnostic.SA1508.severity = warning  # Llave de cierre no debe estar precedida por una lÌnea en blanco
-dotnet_diagnostic.SA1505.severity = warning  # Llave de apertura no debe estar seguida por una lÌnea en blanco
-dotnet_diagnostic.SA1413.severity = warning  # Usar coma al final en inicializadores de m˙ltiples lÌneas
-dotnet_diagnostic.SA1200.severity = warning  # La directiva using debe aparecer dentro de una declaraciÛn de espacio de nombres
+dotnet_diagnostic.SA1508.severity = warning  # Llave de cierre no debe estar precedida por una l√≠nea en blanco
+dotnet_diagnostic.SA1505.severity = warning  # Llave de apertura no debe estar seguida por una l√≠nea en blanco
+dotnet_diagnostic.SA1413.severity = warning  # Usar coma al final en inicializadores de m√∫ltiples l√≠neas
+dotnet_diagnostic.SA1200.severity = warning  # La directiva using debe aparecer dentro de una declaraci√≥n de espacio de nombres
 dotnet_diagnostic.SA1101.severity = warning  # Prefijar llamadas locales con this

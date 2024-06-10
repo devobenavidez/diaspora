@@ -25,14 +25,14 @@ namespace Diaspora.Application.Users.Queries.GetUsersList
             foreach (var user in users)
             {
                 UserDto userDto = new UserDto();
-                userDto.Id = user.Id;
-                userDto.UserName = user.UserName;
+                userDto.Id = user.Id.Value;
+                userDto.UserName = user.UserName.Value;
                 userDto.IsActive = user.IsActive;
-                userDto.CreatedAt = user.CreatedAt;
-                userDto.CreatedBy = user.CreatedBy;
-                userDto.UpdatedAt = user.UpdatedAt;
-                userDto.UpdatedBy = user.UpdatedBy;
-                userDto.DeletedAt = user.DeletedAt;
+                userDto.CreatedAt = user.AuditInfo.CreatedAt;
+                userDto.CreatedBy = user.AuditInfo.CreatedBy;
+                userDto.UpdatedAt = user.AuditInfo.UpdatedAt;
+                userDto.UpdatedBy = user.AuditInfo.UpdatedBy;
+                userDto.DeletedAt = user.AuditInfo.DeletedAt;
                 userList.Add(userDto);
             }
             return userList;

@@ -4,6 +4,7 @@
 
 using Diaspora.Application;
 using Diaspora.Domain.Abstractions;
+using Diaspora.Domain.Services;
 using Diaspora.Infrastructure.Data;
 using Diaspora.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,7 @@ builder.Services.AddDbContext<DBContext>(options =>
     options => options.MigrationsAssembly("Diaspora.Infrastructure")));
 
 builder.Services.AddScoped<IUser, UserRepository>();
+builder.Services.AddScoped<IHashingService, HashingService>();
 
 var app = builder.Build();
 
