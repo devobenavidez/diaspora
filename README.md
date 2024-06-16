@@ -75,5 +75,28 @@ Si encuentras problemas durante la instalación de los hooks o durante los commi
 
 
 
+## Gestión de Migraciones de Base de Datos
+
+
+**Para realizar cambios en la estructura de la base de datos, sigue estos pasos:**
+
+**Crear un Script de Migración:** Si deseas subir algún cambio a la base de datos de tablas o estructura, coloca el script en el directorio Migrations que se encuentra en la raíz del proyecto.
+
+**Nombre del Archivo:** El nombre del archivo debe ser el número de la historia de usuario o work item seguido de una descripción breve de la acción a ejecutar y la fecha en formato AAAA-MM-DD. Por ejemplo:
+
+1234_update_orders_table_2024-06-16.sql
+1235_update_orders_table_2024-06-16-1.sql
+
+Si hay múltiples archivos con la misma fecha, agrega un guión y un número consecutivo al final de la fecha.
+
+**Formato Único:** Asegúrate de que el nombre del archivo sea único dentro del directorio Migrations.
+
+Ejemplo de Nombres de Archivos de Migración:
+
+123_create_customers_table_2024-06-16.sql
+124_alter_orders_table_2024-06-16.sql
+124_alter_orders_table_2024-06-16-1.sql
+
+
 **Contacto**
 Para preguntas o comentarios, por favor contacta a obenavidez@gmai.com
