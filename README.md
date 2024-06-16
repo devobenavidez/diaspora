@@ -91,11 +91,20 @@ Si hay múltiples archivos con la misma fecha, agrega un guión y un número con
 
 **Formato Único:** Asegúrate de que el nombre del archivo sea único dentro del directorio Migrations.
 
+**Actualizar el Estado de Migración:** Después de crear y colocar el script de migración, actualiza el archivo migration_status.txt para reflejar que la migración está pendiente. Usa el siguiente comando para cambiar su contenido a PENDING:
+
+Para Unix/Linux/MacOS y Windows (cmd o PowerShell):
+
+```bash
+echo "PENDING" > migration_status.txt
+```
+
 Ejemplo de Nombres de Archivos de Migración:
 
 123_create_customers_table_2024-06-16.sql
 124_alter_orders_table_2024-06-16.sql
 124_alter_orders_table_2024-06-16-1.sql
+
 
 
 **Contacto**
