@@ -5,12 +5,12 @@ root = true
 # Camel case para variables locales
 dotnet_naming_rule.local_variables_should_be_camel_case.severity = error
 dotnet_naming_rule.local_variables_should_be_camel_case.symbols  = local_variables
-dotnet_naming_rule.local_variables_should_be_camel_case.style    = camel_case_style
+dotnet_naming_rule.local_variables_should_be_camel_case.style = camel_case_style
 
 # Camel case para parámetros de método
 dotnet_naming_rule.method_parameters_should_be_camel_case.severity = error
 dotnet_naming_rule.method_parameters_should_be_camel_case.symbols  = method_parameters
-dotnet_naming_rule.method_parameters_should_be_camel_case.style    = camel_case_style
+dotnet_naming_rule.method_parameters_should_be_camel_case.style = camel_case_style
 
 # Definición de símbolos
 dotnet_naming_symbols.local_variables.applicable_kinds           = local
@@ -31,4 +31,30 @@ dotnet_diagnostic.SA1508.severity = warning  # Llave de cierre no debe estar pre
 dotnet_diagnostic.SA1505.severity = warning  # Llave de apertura no debe estar seguida por una línea en blanco
 dotnet_diagnostic.SA1413.severity = warning  # Usar coma al final en inicializadores de múltiples líneas
 dotnet_diagnostic.SA1200.severity = warning  # La directiva using debe aparecer dentro de una declaración de espacio de nombres
-dotnet_diagnostic.SA1101.severity = warning  # Prefijar llamadas locales con this
+dotnet_diagnostic.SA1101.severity = none  # Prefijar llamadas locales con this
+[*.{cs,vb}]
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+indent_size = 4
+end_of_line = crlf
+[*.cs]
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_prefer_braces = true:silent
+csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
+csharp_indent_labels = one_less_than_current

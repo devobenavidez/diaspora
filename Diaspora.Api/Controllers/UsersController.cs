@@ -1,9 +1,6 @@
-﻿// <copyright file="UsersController.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
-
-namespace Diaspora.Api.Controllers
+﻿namespace Diaspora.Api.Controllers
 {
+    using Asp.Versioning;
     using Diaspora.Application.Users.Commands.CreateUser;
     using Diaspora.Application.Users.Commands.DeleteUser;
     using Diaspora.Application.Users.Commands.UpdateUser;
@@ -15,7 +12,8 @@ namespace Diaspora.Api.Controllers
     using System.Security.Claims;
 
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion(1.0)]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -25,17 +23,10 @@ namespace Diaspora.Api.Controllers
             _mediator = mediator;
         }
 
-        // Suponiendo que tienes una lista estática de usuarios como ejemplo
-        private static readonly List<string> Users = new List<string>
-        {
-            "Usuario1", "Usuario2", "Usuario3", // etc...
-        };
-
-        // Método GET
         [HttpGet]
         public async Task<List<UserDto>> Get()
         {
-            return await _mediator.Send(new GetUsersListCommand());
+            return await _mediator.Send(new GetUsersListQuery());
         }
 
         [HttpPost]
@@ -45,7 +36,7 @@ namespace Diaspora.Api.Controllers
             int createdById = userId != null ? int.Parse(userId) : 0;
             command.SetCreatedById(createdById);
             await _mediator.Send(command);
-            return Created();
+            return new CreatedResult(string.Empty, null);
         }
 
         [HttpPut]
@@ -69,7 +60,7 @@ namespace Diaspora.Api.Controllers
         }
 
         [HttpPost("validate")]
-        public async Task<IActionResult> Validate([FromBody] ValidateUserCommand command)
+        public async Task<IActionResult> Validate([FromBody] ValidateUserQuery command)
         {
             var isValid = await _mediator.Send(command);
             if (isValid)
