@@ -4,10 +4,13 @@
 
 using Diaspora.Application;
 using Diaspora.Domain.Abstractions;
+using Diaspora.Domain.Services;
 using Diaspora.Infrastructure.Data;
 using Diaspora.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +42,15 @@ builder.Services.AddDbContext<DBContext>(options =>
     options => options.MigrationsAssembly("Diaspora.Infrastructure")));
 
 builder.Services.AddScoped<IUser, UserRepository>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1.0);
+    options.ReportApiVersions = true;
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+
+});
 
 var app = builder.Build();
 

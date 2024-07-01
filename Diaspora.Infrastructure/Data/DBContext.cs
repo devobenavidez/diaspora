@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Diaspora.Infrastructure.Models;
+﻿using Diaspora.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace Diaspora.Infrastructure.Data;
 
 public partial class DBContext : DbContext
-{    
-
+{
     public DBContext(DbContextOptions<DBContext> options)
         : base(options)
     {
@@ -44,7 +39,6 @@ public partial class DBContext : DbContext
     public virtual DbSet<Servicetype> Servicetypes { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
-    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -429,6 +423,9 @@ public partial class DBContext : DbContext
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
+            entity.Property(e => e.Salt)
+                .HasColumnType("binary(16)")
+                .IsRequired();
         });
 
         OnModelCreatingPartial(modelBuilder);
