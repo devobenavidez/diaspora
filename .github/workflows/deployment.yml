@@ -52,7 +52,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: Diaspora.Api/Dockerfile  # Ajusta la ruta al Dockerfile correcto
+          file: Diaspora.Api/Dockerfile
           push: true
           tags: ombenavidez/tfm:${{ steps.bump_version.outputs.new_tag }}
 
@@ -70,7 +70,7 @@ jobs:
       - name: Deploy to Azure Web App (DEV)
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'diaspora-dev'  # Reemplaza con el nombre de tu App Service
+          app-name: 'diaspora-dev'
           slot-name: 'production'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_DEV }}
           images: 'ombenavidez/tfm:${{ env.IMAGE_TAG }}'
@@ -91,7 +91,7 @@ jobs:
       - name: Deploy to Azure Web App (QA)
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'diaspora-qa'  # Reemplaza con el nombre de tu App Service
+          app-name: 'diaspora-qa'
           slot-name: 'production'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_QA }}
           images: 'ombenavidez/tfm:${{ env.IMAGE_TAG }}'
@@ -112,7 +112,7 @@ jobs:
       - name: Deploy to Azure Web App (Production)
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'diaspora'  # Reemplaza con el nombre de tu App Service
+          app-name: 'diaspora'
           slot-name: 'production'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_PROD }}
           images: 'ombenavidez/tfm:${{ env.IMAGE_TAG }}'

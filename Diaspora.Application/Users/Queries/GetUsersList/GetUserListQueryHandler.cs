@@ -9,30 +9,30 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Application.Users.Queries.GetUsersList
 {
-    public class GetUserListCommandHandler : IRequestHandler<GetUsersListCommand, List<UserDto>>
+    public class GetUserListQueryHandler : IRequestHandler<GetUsersListQuery, List<UserDto>>
     {
         private readonly IUser _userRepository;
 
-        public GetUserListCommandHandler(IUser userRepository)
+        public GetUserListQueryHandler(IUser userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<List<UserDto>> Handle(GetUsersListCommand request, CancellationToken cancellationToken)
+        public async Task<List<UserDto>> Handle(GetUsersListQuery request, CancellationToken cancellationToken)
         {
             var users = await _userRepository.GetUsersList();
             List<UserDto> userList = new List<UserDto>();
             foreach (var user in users)
             {
                 UserDto userDto = new UserDto();
-                userDto.Id = user.Id;
-                userDto.UserName = user.UserName;
+                userDto.Id = user.Id.Value;
+                userDto.UserName = user.UserName.Value;
                 userDto.IsActive = user.IsActive;
-                userDto.CreatedAt = user.CreatedAt;
-                userDto.CreatedBy = user.CreatedBy;
-                userDto.UpdatedAt = user.UpdatedAt;
-                userDto.UpdatedBy = user.UpdatedBy;
-                userDto.DeletedAt = user.DeletedAt;
+                userDto.CreatedAt = user.AuditInfo.CreatedAt;
+                userDto.CreatedBy = user.AuditInfo.CreatedBy;
+                userDto.UpdatedAt = user.AuditInfo.UpdatedAt;
+                userDto.UpdatedBy = user.AuditInfo.UpdatedBy;
+                userDto.DeletedAt = user.AuditInfo.DeletedAt;
                 userList.Add(userDto);
             }
             return userList;
