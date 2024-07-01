@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Application.Users.Queries.GetValidatedUser
 {
-    public class ValidateUserCommand : IRequest<bool>
+    public class ValidateUserQuery : IRequest<bool>
     {
         public string UserName { get; }
         public string Password { get; }
 
-        public ValidateUserCommand(string userName, string password)
+        public ValidateUserQuery(string userName, string password)
         {
             UserName = userName;
             Password = password;

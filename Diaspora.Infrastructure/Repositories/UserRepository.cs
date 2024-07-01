@@ -53,7 +53,7 @@ namespace Diaspora.Infrastructure.Repositories
                 return null;
             }
 
-            return ConvertUserToEntity(user);
+            return MapUserToEntity(user);
         }
 
         public async Task<UserEntity?> GetUserById(int id)
@@ -64,7 +64,7 @@ namespace Diaspora.Infrastructure.Repositories
                 return null;
             }
 
-            return ConvertUserToEntity(user);
+            return MapUserToEntity(user);
         }
 
         public async Task<List<UserEntity>> GetUsersList()
@@ -75,7 +75,7 @@ namespace Diaspora.Infrastructure.Repositories
             List<UserEntity> userList = new List<UserEntity>();
             foreach (var user in users)
             {
-                var userEntity = ConvertUserToEntity(user);
+                var userEntity = MapUserToEntity(user);
                 userList.Add(userEntity);
             }
 
@@ -87,10 +87,11 @@ namespace Diaspora.Infrastructure.Repositories
             User user = await _context.Users.FindAsync(userEntity.Id.Value);
             user.PasswordHash = userEntity.PasswordHash.Value;
             user.IsActive = userEntity.IsActive;
+            user.Salt = userEntity.Salt.Value;
             await _context.SaveChangesAsync();
         }
 
-        private UserEntity ConvertUserToEntity(User user)
+        private UserEntity MapUserToEntity(User user)
         {
             UserEntity userEntity = UserEntity.FromPrimitves(
                         user.Id,

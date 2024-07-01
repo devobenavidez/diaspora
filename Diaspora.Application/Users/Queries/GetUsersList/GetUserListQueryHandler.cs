@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Application.Users.Queries.GetUsersList
 {
-    public class GetUserListCommandHandler : IRequestHandler<GetUsersListCommand, List<UserDto>>
+    public class GetUserListQueryHandler : IRequestHandler<GetUsersListQuery, List<UserDto>>
     {
         private readonly IUser _userRepository;
 
-        public GetUserListCommandHandler(IUser userRepository)
+        public GetUserListQueryHandler(IUser userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<List<UserDto>> Handle(GetUsersListCommand request, CancellationToken cancellationToken)
+        public async Task<List<UserDto>> Handle(GetUsersListQuery request, CancellationToken cancellationToken)
         {
             var users = await _userRepository.GetUsersList();
             List<UserDto> userList = new List<UserDto>();

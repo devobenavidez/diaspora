@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Application.Users.Queries.GetUsersList
 {
-    public class GetUsersListCommand : IRequest<List<UserDto>>
+    public class GetUsersListQuery : IRequest<List<UserDto>>
     {
     }
 }

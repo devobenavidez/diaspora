@@ -16,7 +16,7 @@ namespace Diaspora.Domain.Shared
         {
             if (value <= this.MIN_VALUE)
             {
-                throw new InvalidIdErrorException("El Id Debe Ser Mayo A Cero.");
+                throw new InvalidIdErrorException("The Id must be greater than zero.");
             }
 
             this.Value = value;
