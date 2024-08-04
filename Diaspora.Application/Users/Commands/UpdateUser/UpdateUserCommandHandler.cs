@@ -17,10 +17,10 @@ namespace Diaspora.Application.Users.Commands.UpdatePasswordUser
 
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
     {
-        private readonly IUser _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IHashingService _hashingService;
 
-        public UpdateUserCommandHandler(IUser userRepository, IHashingService hashingService)
+        public UpdateUserCommandHandler(IUserRepository userRepository, IHashingService hashingService)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _hashingService = hashingService ?? throw new ArgumentNullException(nameof(hashingService));

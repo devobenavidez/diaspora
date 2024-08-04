@@ -12,10 +12,10 @@ namespace Diaspora.Application.Users.Queries.GetValidatedUser
 {
     public class ValidateUserQueryHandler : IRequestHandler<ValidateUserQuery, bool>
     {
-        private readonly IUser _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IHashingService _hashingService;
 
-        public ValidateUserQueryHandler(IUser userRepository, IHashingService hashingService)
+        public ValidateUserQueryHandler(IUserRepository userRepository, IHashingService hashingService)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _hashingService = hashingService ?? throw new ArgumentNullException(nameof(hashingService));

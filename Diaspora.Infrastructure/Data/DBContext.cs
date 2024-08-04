@@ -16,6 +16,8 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Address> Addresses { get; set; }
 
+    public virtual DbSet<Cargotype> Cargotypes { get; set; }
+
     public virtual DbSet<City> Cities { get; set; }
 
     public virtual DbSet<Country> Countries { get; set; }
@@ -24,7 +26,11 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Documenttype> Documenttypes { get; set; }
 
+    public virtual DbSet<Efmigrationshistory> Efmigrationshistories { get; set; }
+
     public virtual DbSet<Fixedprice> Fixedprices { get; set; }
+
+    public virtual DbSet<Migration> Migrations { get; set; }
 
     public virtual DbSet<Person> People { get; set; }
 
@@ -34,9 +40,13 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Service> Services { get; set; }
 
+    public virtual DbSet<Servicedetail> Servicedetails { get; set; }
+
     public virtual DbSet<Servicestatus> Servicestatuses { get; set; }
 
-    public virtual DbSet<Servicetype> Servicetypes { get; set; }
+    public virtual DbSet<Unitrate> Unitrates { get; set; }
+
+    public virtual DbSet<Unitratetype> Unitratetypes { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -75,6 +85,26 @@ public partial class DBContext : DbContext
                 .HasConstraintName("Address_City_FK");
         });
 
+        modelBuilder.Entity<Cargotype>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("cargotype");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime");
+            entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("'1'");
+            entity.Property(e => e.UpdatedAt)
+                .ValueGeneratedOnAddOrUpdate()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<City>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -87,6 +117,7 @@ public partial class DBContext : DbContext
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+            entity.Property(e => e.GeoNameId).HasColumnName("GeoNameID");
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
@@ -115,6 +146,15 @@ public partial class DBContext : DbContext
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
+            entity.Property(e => e.IsoAlpha2)
+                .HasMaxLength(2)
+                .IsFixedLength()
+                .HasColumnName("ISO_Alpha2");
+            entity.Property(e => e.IsoAlpha3)
+                .HasMaxLength(3)
+                .IsFixedLength()
+                .HasColumnName("ISO_Alpha3");
+            entity.Property(e => e.IsoNumeric).HasColumnName("ISO_Numeric");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
@@ -136,6 +176,8 @@ public partial class DBContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValueSql("'1'");
             entity.Property(e => e.Name).HasMaxLength(255);
             entity.Property(e => e.Phone).HasMaxLength(45);
+            entity.Property(e => e.CubicFactor).HasPrecision(5, 2);
+            entity.Property(e => e.NeedsDivision).HasDefaultValueSql("'1'");
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -168,6 +210,16 @@ public partial class DBContext : DbContext
                 .HasConstraintName("DocumentType_Country_FK");
         });
 
+        modelBuilder.Entity<Efmigrationshistory>(entity =>
+        {
+            entity.HasKey(e => e.MigrationId).HasName("PRIMARY");
+
+            entity.ToTable("__efmigrationshistory");
+
+            entity.Property(e => e.MigrationId).HasMaxLength(150);
+            entity.Property(e => e.ProductVersion).HasMaxLength(32);
+        });
+
         modelBuilder.Entity<Fixedprice>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -195,6 +247,22 @@ public partial class DBContext : DbContext
                 .HasForeignKey(d => d.ServiceTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FixedPrice_ServiceType_FK");
+        });
+
+        modelBuilder.Entity<Migration>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("migrations");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AppliedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp")
+                .HasColumnName("applied_at");
+            entity.Property(e => e.Filename)
+                .HasMaxLength(255)
+                .HasColumnName("filename");
         });
 
         modelBuilder.Entity<Person>(entity =>
@@ -281,6 +349,9 @@ public partial class DBContext : DbContext
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
+            entity.Property(e => e.IsoCode)
+                .HasMaxLength(6)
+                .HasColumnName("ISO_Code");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
@@ -309,25 +380,17 @@ public partial class DBContext : DbContext
 
             entity.HasIndex(e => e.SenderId, "Service_Sender_FK_idx");
 
-            entity.HasIndex(e => e.StatusId, "Service_ServiceStatus_FK_idx");
-
-            entity.HasIndex(e => e.TypeId, "Service_ServiceType_FK_idx");
-
             entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.Amount).HasPrecision(10, 2);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
-            entity.Property(e => e.IsActive)
-                .IsRequired()
-                .HasDefaultValueSql("'1'");
-            entity.Property(e => e.Peso).HasPrecision(5, 2);
+            entity.Property(e => e.IsActive).HasDefaultValueSql("'1'");
+            entity.Property(e => e.PickupDate).HasColumnType("datetime");
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Volumen).HasPrecision(7, 2);
 
             entity.HasOne(d => d.Courier).WithMany(p => p.Services)
                 .HasForeignKey(d => d.CourierId)
@@ -353,16 +416,35 @@ public partial class DBContext : DbContext
                 .HasForeignKey(d => d.SenderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Service_Sender_FK");
+        });
 
-            entity.HasOne(d => d.Status).WithMany(p => p.Services)
-                .HasForeignKey(d => d.StatusId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Service_ServiceStatus_FK");
+        modelBuilder.Entity<Servicedetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.HasOne(d => d.Type).WithMany(p => p.Services)
-                .HasForeignKey(d => d.TypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Service_ServiceType_FK");
+            entity.ToTable("servicedetail");
+
+            entity.HasIndex(e => e.ServiceId, "ServiceId");
+
+            entity.Property(e => e.Amount).HasPrecision(10, 2);
+            entity.Property(e => e.Content).HasMaxLength(255);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime");
+            entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+            entity.Property(e => e.Height).HasPrecision(7, 2);
+            entity.Property(e => e.IsActive).HasDefaultValueSql("'1'");
+            entity.Property(e => e.Length).HasPrecision(7, 2);
+            entity.Property(e => e.UpdatedAt)
+                .ValueGeneratedOnAddOrUpdate()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Weight).HasPrecision(5, 2);
+            entity.Property(e => e.Width).HasPrecision(7, 2);
+            entity.Property(e => e.DeclaredValue).HasPrecision(10, 2);
+            entity.HasOne(d => d.Service).WithMany(p => p.Servicedetails)
+                .HasForeignKey(d => d.ServiceId)
+                .HasConstraintName("servicedetail_ibfk_1");
         });
 
         modelBuilder.Entity<Servicestatus>(entity =>
@@ -383,20 +465,65 @@ public partial class DBContext : DbContext
                 .HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<Servicetype>(entity =>
+        modelBuilder.Entity<Unitrate>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("servicetype");
+            entity.ToTable("unitrate");
+
+            entity.HasIndex(e => e.UnitRateTypeId, "FK_UnitRate_UnitRateType");
+
+            entity.HasIndex(e => e.DestinationCityId, "UnitTariff_DestinationCity_FK_idx");
+
+            entity.HasIndex(e => e.OriginCityId, "UnitTariff_OriginCity_FK_idx");
+
+            entity.HasIndex(e => e.ServiceTypeId, "UnitTariff_ServiceType_FK_idx");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime");
+            entity.Property(e => e.DeletedAt).HasColumnType("datetime");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("'1'");
+            entity.Property(e => e.UnitPrice).HasPrecision(10, 2);
+            entity.Property(e => e.UpdatedAt)
+                .ValueGeneratedOnAddOrUpdate()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.DestinationCity).WithMany(p => p.UnitrateDestinationCities)
+                .HasForeignKey(d => d.DestinationCityId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("UnitTariff_DestinationCity_FK");
+
+            entity.HasOne(d => d.OriginCity).WithMany(p => p.UnitrateOriginCities)
+                .HasForeignKey(d => d.OriginCityId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("UnitTariff_OriginCity_FK");
+
+            entity.HasOne(d => d.ServiceType).WithMany(p => p.Unitrates)
+                .HasForeignKey(d => d.ServiceTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("UnitTariff_ServiceType_FK");
+
+            entity.HasOne(d => d.UnitRateType).WithMany(p => p.Unitrates)
+                .HasForeignKey(d => d.UnitRateTypeId)
+                .HasConstraintName("FK_UnitRate_UnitRateType");
+        });
+
+        modelBuilder.Entity<Unitratetype>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("unitratetype");
 
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(255);
-            entity.Property(e => e.IsActive)
-                .IsRequired()
-                .HasDefaultValueSql("'1'");
+            entity.Property(e => e.IsActive).HasDefaultValueSql("'1'");
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -419,13 +546,13 @@ public partial class DBContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("'1'");
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            entity.Property(e => e.Salt)
+                .HasMaxLength(16)
+                .IsFixedLength();
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Salt)
-                .HasColumnType("binary(16)")
-                .IsRequired();
         });
 
         OnModelCreatingPartial(modelBuilder);

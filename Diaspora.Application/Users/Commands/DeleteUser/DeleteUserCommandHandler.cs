@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
 {
-    private readonly IUser _userRepository;
+    private readonly IUserRepository _userRepository;
 
-    public DeleteUserCommandHandler(IUser userRepository)
+    public DeleteUserCommandHandler(IUserRepository userRepository)
     {
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }

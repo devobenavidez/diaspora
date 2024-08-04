@@ -11,9 +11,9 @@ namespace Diaspora.Application.Users.Queries.GetUsersList
 {
     public class GetUserListQueryHandler : IRequestHandler<GetUsersListQuery, List<UserDto>>
     {
-        private readonly IUser _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public GetUserListQueryHandler(IUser userRepository)
+        public GetUserListQueryHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

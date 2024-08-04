@@ -14,6 +14,7 @@
   <ItemGroup>
     <Folder Include="Abstractions\" />
     <Folder Include="Behaviors\" />
+    <Folder Include="Services\Commands\" />
     <Folder Include="Users\Queries\GetUserById\" />
   </ItemGroup>
 

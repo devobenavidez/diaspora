@@ -1,0 +1,82 @@
+﻿using Diaspora.Application.Services.DTOs;
+using Diaspora.Application.Services.Queries.GetCheapestService;
+using Diaspora.Application.Services.Queries.GetServiceQuote;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace Diaspora.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ServicesController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public ServicesController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+
+
+        // GET: api/<ServiceController>
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        [HttpPost("cheapestprice")]
+        public async Task<ActionResult<CheapestServiceDto>> GetCheapestPrice(CheapestServiceQuery request)
+        {
+            var result = await _mediator.Send(request);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("servicequote")]
+        public async Task<ActionResult<ServiceQuoteDto>> GetServiceQuote(GetServiceQuoteQuery request)
+        {
+            var result = await _mediator.Send(request);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
+        // GET api/<ServiceController>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST api/<ServiceController>
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
+
+        // PUT api/<ServiceController>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
+
+        // DELETE api/<ServiceController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
+    }
+}
