@@ -12,7 +12,7 @@ using Diaspora.Infrastructure.Exceptions;
 
 namespace Diaspora.Infrastructure.Repositories
 {
-    public class PersonTypeRepository : IPersonType
+    public class PersonTypeRepository : IPersonTypeRepository
     {
         private readonly DBContext _context;
 

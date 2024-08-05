@@ -69,7 +69,9 @@ namespace Diaspora.Test
             var result = await _usersController.Get();
 
             // Assert
-            Assert.Equal(usersList, result);
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var returnValue = Assert.IsType<List<UserDto>>(okResult.Value);
+            Assert.Equal(usersList, returnValue);
         }
 
         [Fact]

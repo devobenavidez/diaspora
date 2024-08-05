@@ -23,5 +23,5 @@ public partial class Fixedprice
 
     public DateTime DeletedAt { get; set; }
 
-    public virtual Servicetype ServiceType { get; set; } = null!;
+    public virtual Cargotype ServiceType { get; set; } = null!;
 }

@@ -11,21 +11,70 @@ namespace Diaspora.Domain.Entities.User
     {
         public string Value { get; }
 
-        private UserName(string value)
+        private const int MaxLength = 255;
+
+        private UserName(string userName)
         {
-            if (string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(userName))
             {
-                throw ArgumentNullOrWhiteSpaceException.ForParameter(nameof(value));
+                throw ArgumentNullOrWhiteSpaceException.ForParameter(nameof(userName));
             }
 
-            if (value.Length > 255)
+            if (userName.Length > MaxLength)
             {
-                throw ArgumentTooLongException.ForParameter(nameof(value), 255, value.Length);
+                throw ArgumentTooLongException.ForParameter(nameof(userName), MaxLength, userName.Length);
             }
 
-            Value = value;
+            Value = userName;
         }
 
         public static UserName Create(string value) => new UserName(value);
+
+        #pragma warning disable SA1201 // A operator should not follow a method
+        public static bool operator ==(UserName left, UserName right)
+        {
+            if (ReferenceEquals(left, right))
+            {
+                return true;
+            }
+
+            if ((left is null) || (right is null))
+            {
+                return false;
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(UserName left, UserName right)
+        {
+            return !(left == right);
+        }
+        #pragma warning restore SA1201 // A operator should not follow a method
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return Equals((UserName)obj);
+        }
+
+        public bool Equals(UserName other)
+        {
+            return other != null && Value == other.Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }

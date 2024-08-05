@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace Diaspora.Infrastructure.Models;
 
@@ -11,6 +13,10 @@ public partial class User
 
     public string PasswordHash { get; set; } = null!;
 
+    public byte[] Salt { get; set; } = null!;
+
+    [Required]
+    [DefaultValue(true)]
     public bool IsActive { get; set; }
 
     public DateTime CreatedAt { get; set; }
@@ -22,7 +28,6 @@ public partial class User
     public int UpdatedBy { get; set; }
 
     public DateTime? DeletedAt { get; set; }
-    public byte[] Salt { get; set; }
 
     public virtual ICollection<Person> People { get; set; } = new List<Person>();
 }

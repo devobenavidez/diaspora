@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Infrastructure.Repositories
 {
-    public class UserRepository : IUser
+    public class UserRepository : IUserRepository
     {
         private readonly DBContext _context;
 

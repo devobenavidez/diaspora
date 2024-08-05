@@ -41,8 +41,14 @@ builder.Services.AddDbContext<DBContext>(options =>
     Microsoft.EntityFrameworkCore.ServerVersion.Parse(databaseVersion),
     options => options.MigrationsAssembly("Diaspora.Infrastructure")));
 
-builder.Services.AddScoped<IUser, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<ICargoTypeRepository, CargoTypeRespository>();
+builder.Services.AddScoped<ICargoTypeRepository, CargoTypeRespository>();
+builder.Services.AddScoped<IUnitRateRepository, UnitRateRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IHashingService, HashingService>();
+
 
 builder.Services.AddApiVersioning(options =>
 {

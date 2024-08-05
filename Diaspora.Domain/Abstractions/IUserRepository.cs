@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Domain.Abstractions
 {
-    public interface IUser
+    public interface IUserRepository
     {
         Task CreateUser(User user);
         Task<List<User>> GetUsersList();
