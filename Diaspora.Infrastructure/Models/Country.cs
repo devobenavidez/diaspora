@@ -9,6 +9,12 @@ public partial class Country
 
     public string Name { get; set; } = null!;
 
+    public string IsoAlpha2 { get; set; } = null!;
+
+    public string IsoAlpha3 { get; set; } = null!;
+
+    public int IsoNumeric { get; set; }
+
     public bool? IsActive { get; set; }
 
     public DateTime CreatedAt { get; set; }
@@ -19,7 +25,7 @@ public partial class Country
 
     public int UpdatedBy { get; set; }
 
-    public DateTime DeletedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
 
     public virtual ICollection<Documenttype> Documenttypes { get; set; } = new List<Documenttype>();
 

@@ -14,10 +14,10 @@ namespace Diaspora.Application.Users.Commands.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
     {
-        private readonly IUser _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IHashingService _hashingService;
 
-        public CreateUserCommandHandler(IUser userRepository, IHashingService hashingService)
+        public CreateUserCommandHandler(IUserRepository userRepository, IHashingService hashingService)
         {
             _userRepository = userRepository;
             _hashingService = hashingService;

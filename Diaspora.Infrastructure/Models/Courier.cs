@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace Diaspora.Infrastructure.Models;
 
@@ -13,7 +15,13 @@ public partial class Courier
 
     public string Phone { get; set; } = null!;
 
-    public sbyte IsActive { get; set; }
+    public decimal CubicFactor { get; set; }
+
+    public bool NeedsDivision { get; set; }
+
+    [Required]
+    [DefaultValue(true)]
+    public bool IsActive { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -23,7 +31,7 @@ public partial class Courier
 
     public int UpdatedBy { get; set; }
 
-    public DateTime DeletedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
 
     public virtual ICollection<Service> Services { get; set; } = new List<Service>();
 }

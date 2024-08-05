@@ -21,5 +21,11 @@ namespace Diaspora.Application.Exceptions
         {
             return new NotFoundException($"{resourceName} with key {key} not found.");
         }
+
+        public static NotFoundException ForResources(string resourceName, IEnumerable<object> keys)
+        {
+            string keyString = string.Join(", ", keys);
+            return new NotFoundException($"{resourceName} with keys {keyString} not found.");
+        }
     }
 }

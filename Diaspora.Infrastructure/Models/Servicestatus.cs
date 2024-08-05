@@ -20,6 +20,4 @@ public partial class Servicestatus
     public int UpdatedBy { get; set; }
 
     public DateTime DeletedAt { get; set; }
-
-    public virtual ICollection<Service> Services { get; set; } = new List<Service>();
 }

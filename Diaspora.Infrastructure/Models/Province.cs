@@ -11,6 +11,8 @@ public partial class Province
 
     public int CountryId { get; set; }
 
+    public string IsoCode { get; set; } = null!;
+
     public bool? IsActive { get; set; }
 
     public DateTime CreatedAt { get; set; }
@@ -21,7 +23,7 @@ public partial class Province
 
     public int UpdatedBy { get; set; }
 
-    public DateTime DeletedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
 
     public virtual ICollection<City> Cities { get; set; } = new List<City>();
 

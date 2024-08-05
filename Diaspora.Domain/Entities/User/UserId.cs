@@ -12,6 +12,5 @@ namespace Diaspora.Domain.Entities.User
         public UserId(int value) : base(value)
         {
         }
-
     }
 }

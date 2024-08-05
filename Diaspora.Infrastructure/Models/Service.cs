@@ -11,23 +11,15 @@ public partial class Service
 
     public int DestinationCity { get; set; }
 
-    public int TypeId { get; set; }
-
     public int CourierId { get; set; }
 
     public int SenderId { get; set; }
 
     public int ReceiverId { get; set; }
 
-    public int StatusId { get; set; }
+    public DateTime PickupDate { get; set; }
 
-    public decimal? Peso { get; set; }
-
-    public decimal? Volumen { get; set; }
-
-    public decimal? Amount { get; set; }
-
-    public bool? IsActive { get; set; }
+    public sbyte IsActive { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -49,7 +41,5 @@ public partial class Service
 
     public virtual Person Sender { get; set; } = null!;
 
-    public virtual Servicestatus Status { get; set; } = null!;
-
-    public virtual Servicetype Type { get; set; } = null!;
+    public virtual ICollection<Servicedetail> Servicedetails { get; set; } = new List<Servicedetail>();
 }

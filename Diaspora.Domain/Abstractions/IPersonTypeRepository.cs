@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Domain.Abstractions
 {
-    public interface IPersonType
+    public interface IPersonTypeRepository
     {
         Task CreatePersonType(PersonType personType);
         Task<List<PersonType>> GetPersonTypesList();
