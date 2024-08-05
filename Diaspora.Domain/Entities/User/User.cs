@@ -47,10 +47,6 @@
 
         public void SetId(int id)
         {
-            if (id <= 0)
-            {
-                throw new ArgumentException("User ID must be a positive integer.", nameof(id));
-            }
 
             Id = new UserId(id);
         }

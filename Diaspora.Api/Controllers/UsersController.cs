@@ -24,9 +24,16 @@
         }
 
         [HttpGet]
-        public async Task<List<UserDto>> Get()
+        public async Task<ActionResult<List<UserDto>>> Get()
         {
-            return await _mediator.Send(new GetUsersListQuery());
+            var users = await _mediator.Send(new GetUsersListQuery());
+
+            if (users == null || users.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(users);
         }
 
         [HttpPost]
