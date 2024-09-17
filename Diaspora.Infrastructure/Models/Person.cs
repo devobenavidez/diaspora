@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace Diaspora.Infrastructure.Models;
 
@@ -7,7 +9,7 @@ public partial class Person
 {
     public int Id { get; set; }
 
-    public string DocumentNumber { get; set; } = null!;
+    public string DocumentIdentifier { get; set; } = null!;
 
     public string FirstName { get; set; } = null!;
 
@@ -15,7 +17,7 @@ public partial class Person
 
     public string Email { get; set; } = null!;
 
-    public DateTime? FechaNacimiento { get; set; }
+    public DateTime? BirthDate { get; set; }
 
     public int DocumentTypeId { get; set; }
 
@@ -25,7 +27,9 @@ public partial class Person
 
     public int? UserId { get; set; }
 
-    public sbyte IsActive { get; set; }
+    [Required]
+    [DefaultValue(true)]
+    public bool IsActive { get; set; }
 
     public DateTime CreatedAt { get; set; }
 

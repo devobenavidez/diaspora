@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace Diaspora.Infrastructure.Models;
 
@@ -19,7 +21,13 @@ public partial class Service
 
     public DateTime PickupDate { get; set; }
 
-    public sbyte IsActive { get; set; }
+    [Required]
+    [DefaultValue(true)]
+    public bool IsActive { get; set; }
+
+    public string PaymentId { get; set; }
+
+    public int ServiceTypeId { get; set; }
 
     public DateTime CreatedAt { get; set; }
 

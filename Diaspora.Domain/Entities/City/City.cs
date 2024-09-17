@@ -1,4 +1,4 @@
-﻿using Diaspora.Domain.Shared;
+﻿using Diaspora.Domain.Shared.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +9,19 @@ namespace Diaspora.Domain.Entities.City
 {
     public class City
     {
-        public CityId Id { get; set; }
+        public CityIdentifier Id { get; set; }
 
         public CityName Name { get; set; } = null!;
 
         public ProvinceId ProvinceId { get; set; }
 
         public GeoNameId GeoNameId { get; set; }
-        
+
         public bool IsActive { get; set; }
+
         public AuditInfo AuditInfo { get; set; }
 
-        private City (CityId id, CityName name, ProvinceId provinceId, GeoNameId geoNameId, bool isActive, AuditInfo auditInfo)
+        private City(CityIdentifier id, CityName name, ProvinceId provinceId, GeoNameId geoNameId, bool isActive, AuditInfo auditInfo)
         {
             Id = id;
             Name = name;
@@ -50,7 +51,7 @@ namespace Diaspora.Domain.Entities.City
 
         public static City FromPrimitives(int id, string name, int provinceId, int geoNameId, bool isActive, DateTime createdAt, int createdBy, DateTime updatedAt, int updatedBy)
         {
-            var cityId = new CityId(id);
+            var cityId = new CityIdentifier(id);
             var cityName = CityName.Create(name);
             var province = ProvinceId.Create(provinceId);
             var geoName = GeoNameId.Create(geoNameId);

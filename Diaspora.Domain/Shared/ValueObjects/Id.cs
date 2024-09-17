@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diaspora.Domain.Shared
+namespace Diaspora.Domain.Shared.ValueObjects
 {
     public abstract class Id
     {
@@ -14,12 +14,12 @@ namespace Diaspora.Domain.Shared
 
         protected Id(int value)
         {
-            if (value <= this.MIN_VALUE)
+            if (value < MIN_VALUE)
             {
                 throw new InvalidIdErrorException("The Id must be greater than zero.");
             }
 
-            this.Value = value;
+            Value = value;
         }
 
         public bool Equals(Id other)
@@ -29,7 +29,7 @@ namespace Diaspora.Domain.Shared
                 return false;
             }
 
-            return this.Value == other.Value;
+            return Value == other.Value;
         }
     }
 }

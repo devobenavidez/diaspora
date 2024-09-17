@@ -1,4 +1,4 @@
-﻿using Diaspora.Domain.Shared;
+﻿using Diaspora.Domain.Shared.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Domain.Entities.UnitTariff
 {
-    public class UnitRateId: Id
+    public class UnitRateId : Id
     {
         public UnitRateId(int value) : base(value)
         {
