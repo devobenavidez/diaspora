@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Application.Services.DTOs
 {
-    public class ServiceQuoteDto: CheapestServiceDto
+    public class ServiceQuoteDto : CheapestServiceDto
     {
         public decimal ImportDuties { get; set; }
     }

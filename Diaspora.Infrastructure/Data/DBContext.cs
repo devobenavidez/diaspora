@@ -67,6 +67,8 @@ public partial class DBContext : DbContext
             entity.Property(e => e.Address1).HasMaxLength(255);
             entity.Property(e => e.Address2).HasMaxLength(255);
             entity.Property(e => e.Address3).HasMaxLength(255);
+            entity.Property(e => e.PostalCode).HasMaxLength(20);
+            entity.Property(e => e.AddressIdentifier).HasMaxLength(36);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
@@ -279,14 +281,14 @@ public partial class DBContext : DbContext
 
             entity.HasIndex(e => e.UserId, "Person_User_FK_idx");
 
-            entity.HasIndex(e => new { e.DocumentNumber, e.Email, e.DocumentTypeId }, "UniqueData_idx").IsUnique();
+            entity.HasIndex(e => new { e.DocumentIdentifier, e.Email, e.DocumentTypeId }, "UniqueData_idx").IsUnique();
 
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
             entity.Property(e => e.DeletedAt).HasColumnType("datetime");
-            entity.Property(e => e.DocumentNumber).HasMaxLength(50);
-            entity.Property(e => e.FechaNacimiento).HasColumnType("datetime");
+            entity.Property(e => e.DocumentIdentifier).HasMaxLength(50);
+            entity.Property(e => e.BirthDate).HasColumnType("datetime");
             entity.Property(e => e.FirstName).HasMaxLength(255);
             entity.Property(e => e.IsActive).HasDefaultValueSql("'1'");
             entity.Property(e => e.LastName).HasMaxLength(255);
@@ -380,7 +382,7 @@ public partial class DBContext : DbContext
 
             entity.HasIndex(e => e.SenderId, "Service_Sender_FK_idx");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");

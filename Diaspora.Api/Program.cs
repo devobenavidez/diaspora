@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+using Diaspora.Infrastructure.Abstractions;
+using Diaspora.Infrastructure.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,11 +46,25 @@ builder.Services.AddDbContext<DBContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<ICargoTypeRepository, CargoTypeRespository>();
-builder.Services.AddScoped<ICargoTypeRepository, CargoTypeRespository>();
 builder.Services.AddScoped<IUnitRateRepository, UnitRateRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IPaymentService>(provider =>
+    new PaymentService("sk_test_51Pz29e056IiRzgCAucJJHGxXcup7HEqmjrWxe1tmMaZCEmxCbS3k5xWGwvrC5022xkAEY9M4MQxDJZj5IEi4D8Py00rqwLjZKa"));
 
+builder.Services.AddScoped<IEmailService, EmailService>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var apiKey = configuration["Mailgun:ApiKey"];
+    var domain = configuration["Mailgun:Domain"];
+    var apiBaseUrl = configuration["Mailgun:ApiBaseUrl"];
+    var fromEmail = configuration["Mailgun:From"];
+
+    return new EmailService(apiKey, domain, apiBaseUrl, fromEmail);
+});
 
 builder.Services.AddApiVersioning(options =>
 {

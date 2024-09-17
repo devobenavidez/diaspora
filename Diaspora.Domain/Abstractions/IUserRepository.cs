@@ -15,5 +15,7 @@ namespace Diaspora.Domain.Abstractions
         Task<User> GetUserById(int id);
         Task DeleteUser(User user);
         Task<User> GetByUserNameAsync(string userName);
+        Task<User> AddAsync(User user);
+        void SyncDomainEntityWithDatabase(User userEntity);
     }
 }

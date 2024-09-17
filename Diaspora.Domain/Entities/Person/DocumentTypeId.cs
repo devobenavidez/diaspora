@@ -5,23 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diaspora.Domain.Shared
+namespace Diaspora.Domain.Entities.Person
 {
-    public class CityId : IEquatable<CityId>
+    public class DocumentTypeId : IEquatable<DocumentTypeId>
     {
         public int Value { get; }
 
-        public CityId(int value)
+        public DocumentTypeId(int value)
         {
             if (value <= 0)
             {
-                throw new InvalidCityIdException(value);
+                throw new InvalidDocumentTypeIdException(value);
             }
 
             Value = value;
         }
 
-        public static CityId Create(int value) => new CityId(value);
+        public static DocumentTypeId Create(int value) => new DocumentTypeId(value);
 
         public override bool Equals(object obj)
         {
@@ -30,10 +30,10 @@ namespace Diaspora.Domain.Shared
                 return false;
             }
 
-            return Equals((CityId)obj);
+            return Equals((DocumentTypeId)obj);
         }
 
-        public bool Equals(CityId other)
+        public bool Equals(DocumentTypeId other)
         {
             return other != null && Value == other.Value;
         }
@@ -48,8 +48,8 @@ namespace Diaspora.Domain.Shared
             return Value.ToString();
         }
 
-        #pragma warning disable SA1201 // A operator should not follow a method
-        public static bool operator ==(CityId left, CityId right)
+#pragma warning disable SA1201 // A operator should not follow a method
+        public static bool operator ==(DocumentTypeId left, DocumentTypeId right)
         {
             if (ReferenceEquals(left, right))
             {
@@ -64,10 +64,10 @@ namespace Diaspora.Domain.Shared
             return left.Equals(right);
         }
 
-        public static bool operator !=(CityId left, CityId right)
+        public static bool operator !=(DocumentTypeId left, DocumentTypeId right)
         {
             return !(left == right);
         }
-        #pragma warning restore SA1201 // A operator should not follow a method
+#pragma warning restore SA1201 // A operator should not follow a method
     }
 }
