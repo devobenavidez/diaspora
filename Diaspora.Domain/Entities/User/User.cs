@@ -1,24 +1,24 @@
 ﻿namespace Diaspora.Domain.Entities.User
 {
     using Diaspora.Domain.Abstractions;
-    using Diaspora.Domain.Shared;
+    using Diaspora.Domain.Shared.ValueObjects;
     using System;
 
     public class User
     {
-        public UserId Id { get; private set; }
+        public UserIdentifier Id { get; set; }
 
-        public UserName UserName { get; private set; }
+        public UserName UserName { get; set; }
 
-        public PasswordHash PasswordHash { get; private set; }
+        public PasswordHash PasswordHash { get; set; }
 
-        public bool IsActive { get; private set; }
+        public bool IsActive { get; set; }
 
-        public AuditInfo AuditInfo { get; private set; }
+        public AuditInfo AuditInfo { get; set; }
 
-        public Salt Salt { get; private set; }
+        public Salt Salt { get; set; }
 
-        private User(UserId id, UserName userName, PasswordHash passwordHash, bool isActive, AuditInfo auditInfo, byte[] salt)
+        private User(UserIdentifier id, UserName userName, PasswordHash passwordHash, bool isActive, AuditInfo auditInfo, byte[] salt)
         {
             Id = id;
             UserName = userName;
@@ -48,7 +48,7 @@
         public void SetId(int id)
         {
 
-            Id = new UserId(id);
+            Id = new UserIdentifier(id);
         }
 
         public void UpdatePassword(int updatedBy)
@@ -94,12 +94,17 @@
 
         public static User FromPrimitves(int id, string userName, string passwordHash, byte[] salt, bool isActive, DateTime createdAt, int createdBy, DateTime updatedAt, int updatedBy, DateTime? deletedAt)
         {
-            var idVo = new UserId(id);
+            var idVo = new UserIdentifier(id);
             var userNameVo = UserName.Create(userName);
             var passwordHashVo = PasswordHash.Create(passwordHash);
             var auditInfo = AuditInfo.Create(createdAt, createdBy, updatedAt, updatedBy, deletedAt);
 
             return new User(idVo, userNameVo, passwordHashVo, isActive, auditInfo, salt);
+        }
+
+        public static UserIdentifier SetUserId(int id)
+        {
+            return new UserIdentifier(id);
         }
     }
 }

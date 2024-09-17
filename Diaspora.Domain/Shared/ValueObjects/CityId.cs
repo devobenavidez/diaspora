@@ -5,23 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diaspora.Domain.Shared
+namespace Diaspora.Domain.Shared.ValueObjects
 {
-    public class ProvinceId : IEquatable<ProvinceId>
+    public class CityId : IEquatable<CityId>
     {
         public int Value { get; }
 
-        public ProvinceId(int value)
+        public CityId(int value)
         {
-            if (value <= 0)
+            if (value < 0)
             {
-                throw new InvalidProvinceIdException(value);
+                throw new InvalidCityIdException(value);
             }
 
             Value = value;
         }
 
-        public static ProvinceId Create(int value) => new ProvinceId(value);
+        public static CityId Create(int value) => new CityId(value);
 
         public override bool Equals(object obj)
         {
@@ -30,10 +30,10 @@ namespace Diaspora.Domain.Shared
                 return false;
             }
 
-            return Equals((ProvinceId)obj);
+            return Equals((CityId)obj);
         }
 
-        public bool Equals(ProvinceId other)
+        public bool Equals(CityId other)
         {
             return other != null && Value == other.Value;
         }
@@ -49,14 +49,14 @@ namespace Diaspora.Domain.Shared
         }
 
 #pragma warning disable SA1201 // A operator should not follow a method
-        public static bool operator ==(ProvinceId left, ProvinceId right)
+        public static bool operator ==(CityId left, CityId right)
         {
             if (ReferenceEquals(left, right))
             {
                 return true;
             }
 
-            if ((left is null) || (right is null))
+            if (left is null || right is null)
             {
                 return false;
             }
@@ -64,7 +64,7 @@ namespace Diaspora.Domain.Shared
             return left.Equals(right);
         }
 
-        public static bool operator !=(ProvinceId left, ProvinceId right)
+        public static bool operator !=(CityId left, CityId right)
         {
             return !(left == right);
         }

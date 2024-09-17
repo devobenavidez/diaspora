@@ -1,4 +1,4 @@
-﻿using Diaspora.Domain.Shared;
+﻿using Diaspora.Domain.Shared.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Domain.Entities.ServiceType
 {
-    public class CargoTypeId: Id
+    public class CargoTypeId : Id
     {
         public CargoTypeId(int value) : base(value)
         {

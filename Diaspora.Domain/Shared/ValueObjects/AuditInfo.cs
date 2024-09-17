@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diaspora.Domain.Shared
+namespace Diaspora.Domain.Shared.ValueObjects
 {
     public class AuditInfo
     {

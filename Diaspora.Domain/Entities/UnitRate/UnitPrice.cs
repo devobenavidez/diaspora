@@ -48,7 +48,7 @@ namespace Diaspora.Domain.Entities.UnitTariff
             return Value.ToString();
         }
 
-        #pragma warning disable SA1201 // A operator should not follow a method
+#pragma warning disable SA1201 // A operator should not follow a method
         public static bool operator ==(UnitPrice left, UnitPrice right)
         {
             if (ReferenceEquals(left, right))
@@ -68,6 +68,6 @@ namespace Diaspora.Domain.Entities.UnitTariff
         {
             return !(left == right);
         }
-        #pragma warning restore SA1201 // A operator should not follow a method
+#pragma warning restore SA1201 // A operator should not follow a method
     }
 }

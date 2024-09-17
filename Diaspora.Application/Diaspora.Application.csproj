@@ -14,12 +14,11 @@
   <ItemGroup>
     <Folder Include="Abstractions\" />
     <Folder Include="Behaviors\" />
-    <Folder Include="Services\Commands\" />
-    <Folder Include="Users\Queries\GetUserById\" />
+    <Folder Include="User\Queries\GetUserById\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
 </Project>
