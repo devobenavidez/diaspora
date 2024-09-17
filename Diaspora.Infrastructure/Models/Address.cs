@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace Diaspora.Infrastructure.Models;
 
@@ -12,10 +14,14 @@ public partial class Address
     public string? Address2 { get; set; }
 
     public string? Address3 { get; set; }
+    public string PostalCode { get; set; }
 
     public int CityId { get; set; }
+    public Guid AddressIdentifier { get; set; }
 
-    public bool? IsActive { get; set; }
+    [Required]
+    [DefaultValue(true)]
+    public bool IsActive { get; set; }
 
     public DateTime CreatedAt { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using Diaspora.Domain.Exceptions;
-using Diaspora.Domain.Shared;
 using Diaspora.Domain.Shared.Enums;
+using Diaspora.Domain.Shared.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +56,7 @@ namespace Diaspora.Domain.Entities.UnitTariff
             return new UnitRate(originCityId, destinationCityId, serviceTypeId, unitPriceValue, true, auditInfo);
         }
 
-        public static UnitRate FromPrimitives (int id, int origin, int destination, int serviceType, decimal unitPrice, bool isActive, DateTime createdAt, int createdBy, DateTime updatedAt, int updatedBy)
+        public static UnitRate FromPrimitives(int id, int origin, int destination, int serviceType, decimal unitPrice, bool isActive, DateTime createdAt, int createdBy, DateTime updatedAt, int updatedBy)
         {
             var originCityId = CityId.Create(origin);
             var destinationCityId = CityId.Create(destination);
@@ -93,8 +93,8 @@ namespace Diaspora.Domain.Entities.UnitTariff
             };
         }
 
-        public decimal CalculateImportDuties(decimal declaredValue) {
-
+        public decimal CalculateImportDuties(decimal declaredValue)
+        {
             if (declaredValue <= 0)
             {
                 throw ArgumentNegativeException.ForParameter(NegativeDeclaredValueExceptionLabel, declaredValue);

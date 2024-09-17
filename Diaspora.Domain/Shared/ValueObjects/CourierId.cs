@@ -5,23 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Diaspora.Domain.Shared
+namespace Diaspora.Domain.Shared.ValueObjects
 {
-    public class ServiceTypeId : IEquatable<ServiceTypeId>
+    public class CourierId : IEquatable<CourierId>
     {
         public int Value { get; }
 
-        public ServiceTypeId(int value)
+        public CourierId(int value)
         {
             if (value <= 0)
             {
-                throw new InvalidServiceTypeIdException(value);
+                throw new InvalidCourierIdException(value);
             }
 
             Value = value;
         }
 
-        public static ServiceTypeId Create(int value) => new ServiceTypeId(value);
+        public static CourierId Create(int value) => new CourierId(value);
 
         public override bool Equals(object obj)
         {
@@ -30,10 +30,10 @@ namespace Diaspora.Domain.Shared
                 return false;
             }
 
-            return Equals((ServiceTypeId)obj);
+            return Equals((CourierId)obj);
         }
 
-        public bool Equals(ServiceTypeId other)
+        public bool Equals(CourierId other)
         {
             return other != null && Value == other.Value;
         }
@@ -48,15 +48,15 @@ namespace Diaspora.Domain.Shared
             return Value.ToString();
         }
 
-        #pragma warning disable SA1201 // A operator should not follow a method
-        public static bool operator ==(ServiceTypeId left, ServiceTypeId right)
+#pragma warning disable SA1201 // A operator should not follow a method
+        public static bool operator ==(CourierId left, CourierId right)
         {
             if (ReferenceEquals(left, right))
             {
                 return true;
             }
 
-            if ((left is null) || (right is null))
+            if (left is null || right is null)
             {
                 return false;
             }
@@ -64,11 +64,10 @@ namespace Diaspora.Domain.Shared
             return left.Equals(right);
         }
 
-        public static bool operator !=(ServiceTypeId left, ServiceTypeId right)
+        public static bool operator !=(CourierId left, CourierId right)
         {
             return !(left == right);
         }
-
-        #pragma warning restore SA1201 // A operator should not follow a method
+#pragma warning restore SA1201 // A operator should not follow a method
     }
 }

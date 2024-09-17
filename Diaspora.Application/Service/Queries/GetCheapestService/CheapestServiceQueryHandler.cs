@@ -26,7 +26,7 @@ namespace Diaspora.Application.Services.Queries.GetCheapestService
 
         public async Task<CheapestServiceDto> Handle(CheapestServiceQuery request, CancellationToken cancellationToken)
         {
-            var originDestinationList = await _cityRepository.GetOriginAndDestinationCitiesById(request.OriginCityId, request.DestinationCityId); 
+            var originDestinationList = await _cityRepository.GetOriginAndDestinationCitiesById(request.OriginCityId, request.DestinationCityId);
 
             if (originDestinationList.Count == 0)
             {
@@ -37,7 +37,7 @@ namespace Diaspora.Application.Services.Queries.GetCheapestService
             if (originDestinationList.Count == 1)
             {
                 var originCity = originDestinationList.Where(x => x.Id.Value == request.OriginCityId).FirstOrDefault();
-                if(originCity == null)
+                if (originCity == null)
                     throw NotFoundException.ForResource("Origin city", request.OriginCityId);
                 else
                     throw NotFoundException.ForResource("Destination city", request.DestinationCityId);
@@ -49,7 +49,8 @@ namespace Diaspora.Application.Services.Queries.GetCheapestService
 
             var cheapestService = await _serviceRepository.GetCheapestService(request.OriginCityId, request.DestinationCityId, request.ServiceTypeId, MinimalUnits);
 
-            var cheapestServiceDto = new CheapestServiceDto {
+            var cheapestServiceDto = new CheapestServiceDto
+            {
                 OriginCityId = request.OriginCityId,
                 DestinationCityId = request.DestinationCityId,
                 ServiceTypeId = request.ServiceTypeId,

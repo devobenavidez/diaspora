@@ -1,4 +1,4 @@
-﻿using Diaspora.Domain.Shared;
+﻿using Diaspora.Domain.Shared.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Domain.Entities.City
 {
-    public class CityId : Id
+    public class CityIdentifier : Id
     {
-        public CityId(int value) : base(value)
+        public CityIdentifier(int value) : base(value)
         {
         }
     }

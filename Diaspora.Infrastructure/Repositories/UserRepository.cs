@@ -91,6 +91,24 @@ namespace Diaspora.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<UserEntity> AddAsync(UserEntity userEntity)
+        {
+            var user = MapToModel(userEntity);
+            var userResult = await _context.Users.AddAsync(user);
+            //await _context.SaveChangesAsync();
+
+            return MapUserToEntity(userResult.Entity);
+        }
+
+        public void SyncDomainEntityWithDatabase(UserEntity userEntity)
+        {
+            var addressModel = _context.Users.Local.FirstOrDefault(p => p.UserName == userEntity.UserName.Value);
+            if (addressModel != null)
+            {
+                userEntity.Id = UserEntity.SetUserId(addressModel.Id);
+            }
+        }
+
         private UserEntity MapUserToEntity(User user)
         {
             UserEntity userEntity = UserEntity.FromPrimitves(
@@ -113,7 +131,6 @@ namespace Diaspora.Infrastructure.Repositories
         {
             return new User
             {
-                Id = userEntity.Id.Value,
                 UserName = userEntity.UserName.Value,
                 PasswordHash = userEntity.PasswordHash.Value,
                 Salt = userEntity.Salt.Value,

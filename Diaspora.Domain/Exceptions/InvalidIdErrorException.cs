@@ -8,7 +8,7 @@ namespace Diaspora.Domain.Exceptions
 {
     public class InvalidIdErrorException : Exception
     {
-        public InvalidIdErrorException(string value) : base($"The ID value '{value}' is not a valid Guid.")
+        public InvalidIdErrorException(string value) : base($"{value}")
         {
         }
 

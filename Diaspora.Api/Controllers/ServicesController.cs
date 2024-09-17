@@ -1,4 +1,5 @@
-﻿using Diaspora.Application.Services.DTOs;
+﻿using Diaspora.Application.Services.Commands.CreateService;
+using Diaspora.Application.Services.DTOs;
 using Diaspora.Application.Services.Queries.GetCheapestService;
 using Diaspora.Application.Services.Queries.GetServiceQuote;
 using MediatR;
@@ -63,8 +64,10 @@ namespace Diaspora.Api.Controllers
 
         // POST api/<ServiceController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<int>> Post([FromBody] CreateServiceCommand service)
         {
+            var result = await _mediator.Send(service);
+            return Ok(result);
         }
 
         // PUT api/<ServiceController>/5

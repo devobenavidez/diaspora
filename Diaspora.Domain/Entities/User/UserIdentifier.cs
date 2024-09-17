@@ -1,4 +1,4 @@
-﻿using Diaspora.Domain.Shared;
+﻿using Diaspora.Domain.Shared.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Diaspora.Domain.Entities.User
 {
-    public class UserId : Id
+    public class UserIdentifier : Id
     {
-        public UserId(int value) : base(value)
+        public UserIdentifier(int value) : base(value)
         {
         }
     }

@@ -30,7 +30,7 @@ namespace Diaspora.Domain.Entities.User
 
         public static UserName Create(string value) => new UserName(value);
 
-        #pragma warning disable SA1201 // A operator should not follow a method
+#pragma warning disable SA1201 // A operator should not follow a method
         public static bool operator ==(UserName left, UserName right)
         {
             if (ReferenceEquals(left, right))
@@ -50,8 +50,7 @@ namespace Diaspora.Domain.Entities.User
         {
             return !(left == right);
         }
-        #pragma warning restore SA1201 // A operator should not follow a method
-
+#pragma warning restore SA1201 // A operator should not follow a method
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
