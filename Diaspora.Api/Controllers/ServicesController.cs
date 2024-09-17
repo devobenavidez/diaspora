@@ -1,4 +1,5 @@
-﻿using Diaspora.Application.Services.Commands.CreateService;
+﻿using Asp.Versioning;
+using Diaspora.Application.Services.Commands.CreateService;
 using Diaspora.Application.Services.DTOs;
 using Diaspora.Application.Services.Queries.GetCheapestService;
 using Diaspora.Application.Services.Queries.GetServiceQuote;
@@ -9,8 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Diaspora.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [ApiVersion(1.0)]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ServicesController : ControllerBase
     {
         private readonly IMediator _mediator;
