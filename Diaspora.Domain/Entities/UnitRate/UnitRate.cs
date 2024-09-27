@@ -100,7 +100,7 @@ namespace Diaspora.Domain.Entities.UnitTariff
                 throw ArgumentNegativeException.ForParameter(NegativeDeclaredValueExceptionLabel, declaredValue);
             }
 
-            if (declaredValue > MinilDeclaredPlainValue)
+            if (declaredValue >= MinilDeclaredPlainValue)
             {
                 return declaredValue * ImportDutiesCharge;
             }
