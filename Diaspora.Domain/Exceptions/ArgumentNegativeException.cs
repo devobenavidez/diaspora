@@ -9,7 +9,7 @@ namespace Diaspora.Domain.Exceptions
     public class ArgumentNegativeException : Exception
     {
         public ArgumentNegativeException(string parameterName, object value)
-            : base($"The argument '{parameterName}' cannot be negative. Value provided: {value}.")
+            : base($"The argument '{parameterName}' cannot be zero or negative. Value provided: {value}.")
         {
         }
 
